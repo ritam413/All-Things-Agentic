@@ -1,0 +1,52 @@
+{
+  "id": "hh_palm_grove_402",
+  "name": "Flat 402 - Palm Grove Residency",
+  "default_currency": "INR",
+  "default_split_rule": "EQUAL",
+  "roommates": [
+    {
+      "id": "rm_alex",
+      "name": "Alex Chen",
+      "email": "alex.chen@example.com",
+      "phone": "+919876543210",
+      "upi_vpa": "alex@okaxis",
+      "room_sq_ft": 350.0,
+      "custom_split_pct": 35.0,
+      "habit_badge": "RAPID_SETTLER",
+      "avg_settlement_hours": 2.4
+    },
+    {
+      "id": "rm_priya",
+      "name": "Priya Sharma",
+      "email": "priya.sharma@example.com",
+      "phone": "+919876543211",
+      "upi_vpa": "priya@paytm",
+      "room_sq_ft": 250.0,
+      "custom_split_pct": 25.0,
+      "habit_badge": "RELIABLE",
+      "avg_settlement_hours": 18.0
+    },
+    {
+      "id": "rm_rahul",
+      "name": "Rahul Verma",
+      "email": "rahul.verma@example.com",
+      "phone": "+919876543212",
+      "upi_vpa": "rahul@ybl",
+      "room_sq_ft": 220.0,
+      "custom_split_pct": 22.0,
+      "habit_badge": "CHRONIC_LATE",
+      "avg_settlement_hours": 96.0
+    },
+    {
+      "id": "rm_sam",
+      "name": "Samira Khan",
+      "email": "samira.k@example.com",
+      "phone": "+919876543213",
+      "upi_vpa": "samira@icici",
+      "room_sq_ft": 180.0,
+      "custom_split_pct": 18.0,
+      "habit_badge": "RELIABLE",
+      "avg_settlement_hours": 12.0
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoomieOps AI — Glassmorphism Design System & UI Components</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #080C14;
+      color: #F3F4F6;
+      font-family: 'Inter', sans-serif;
+    }
+    .font-heading { font-family: 'Outfit', sans-serif; }
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+    }
+  </style>
+</head>
+<body class="p-6 md:p-12 selection:bg-cyan-500 selection:text-black">
+  <div class="max-w-7xl mx-auto space-y-10">
+    <div class="glass-panel p-8">
+      <h1 class="text-4xl font-heading font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">
+        RoomieOps AI Design System
+      </h1>
+      <p class="text-gray-400 mt-2">Cyber-Financial Glassmorphism UI Component Suite</p>
+    </div>
+
+    <!-- Live Component Mockups -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Dropzone Card -->
+      <div class="glass-panel p-6 space-y-4">
+        <h3 class="text-lg font-heading font-bold text-white flex items-center justify-between">
+          <span>Multimodal Ingestion</span>
+          <span class="text-xs font-mono px-2 py-0.5 bg-cyan-500/20 text-cyan-300 rounded">Gemini Vision</span>
+        </h3>
+        <div class="border-2 border-dashed border-cyan-500/30 rounded-xl p-6 text-center hover:border-cyan-400 transition-colors cursor-pointer bg-slate-900/40">
+          <div class="w-12 h-12 mx-auto rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400 mb-3">
+            📸
+          </div>
+          <p class="text-sm text-gray-200 font-medium">Drop bill photo or PDF here</p>
+          <p class="text-xs text-gray-500 mt-1">Supports Electricity, Rent, Wifi, Groceries</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="flex-1 py-1.5 px-3 text-xs font-mono bg-slate-800 hover:bg-slate-700 text-gray-300 rounded-lg border border-slate-700">⚡ Preset: Electricity</button>
+          <button class="flex-1 py-1.5 px-3 text-xs font-mono bg-slate-800 hover:bg-slate-700 text-gray-300 rounded-lg border border-slate-700">🌐 Preset: Wifi</button>
+        </div>
+      </div>
+
+      <!-- Debt Simplifier Card -->
+      <div class="glass-panel p-6 space-y-4">
+        <h3 class="text-lg font-heading font-bold text-white flex items-center justify-between">
+          <span>Debt Simplification</span>
+          <span class="text-xs font-mono px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">Min-Cash-Flow</span>
+        </h3>
+        <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between text-xs text-gray-400">
+            <span>Raw Debts: <strong class="text-rose-400">6 transfers</strong></span>
+            <span>Optimized: <strong class="text-emerald-400">2 transfers</strong></span>
+          </div>
+          <div class="p-3 bg-slate-900/80 rounded-lg border border-slate-700 flex items-center justify-between">
+            <span class="text-sm font-medium text-white">Priya ➔ Alex</span>
+            <span class="font-mono text-emerald-400 font-bold">₹1,450.00</span>
+          </div>
+          <div class="p-3 bg-slate-900/80 rounded-lg border border-slate-700 flex items-center justify-between">
+            <span class="text-sm font-medium text-white">Rahul ➔ Alex</span>
+            <span class="font-mono text-emerald-400 font-bold">₹820.00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Agent Stream -->
+      <div class="glass-panel p-6 space-y-4">
+        <h3 class="text-lg font-heading font-bold text-white flex items-center justify-between">
+          <span>Agent Activity Stream</span>
+          <span class="text-xs font-mono px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded">Autonomous</span>
+        </h3>
+        <div class="space-y-3 font-mono text-xs">
+          <div class="p-2.5 bg-slate-950/80 rounded-lg border border-slate-800 border-l-2 border-l-cyan-400">
+            <div class="text-[10px] text-gray-500">14:02:11 • Gemini Vision</div>
+            <div class="text-gray-200 mt-0.5">Parsed 'Airtel Broadband' (₹1,199.00). Split 4 ways.</div>
+          </div>
+          <div class="p-2.5 bg-slate-950/80 rounded-lg border border-slate-800 border-l-2 border-l-amber-400">
+            <div class="text-[10px] text-gray-500">14:15:00 • Cron Pulse</div>
+            <div class="text-amber-300 mt-0.5">Stage 3 Deadline Reminder dispatched to Rahul.</div>
+          </div>
+          <div class="p-2.5 bg-slate-950/80 rounded-lg border border-slate-800 border-l-2 border-l-emerald-400">
+            <div class="text-[10px] text-gray-500">14:21:45 • Webhook</div>
+            <div class="text-emerald-300 mt-0.5">Payment confirmed by Priya. Habit profile updated.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+[
+  {
+    "id": "preset_electricity",
+    "vendor": "Adani Electricity Mumbai Ltd",
+    "category": "ELECTRICITY",
+    "total_amount": 2450.00,
+    "tax_amount": 180.00,
+    "bill_date": "2026-08-25",
+    "due_date": "2026-09-02",
+    "items": [
+      { "name": "Energy Charges (340 kWh)", "amount": 2100.00, "category": "UTILITIES" },
+      { "name": "Fuel Adjustment Charge & Duty", "amount": 350.00, "category": "TAX" }
+    ],
+    "confidence_score": 0.98
+  },
+  {
+    "id": "preset_wifi",
+    "vendor": "Airtel Xstream Fiber",
+    "category": "WIFI",
+    "total_amount": 1199.00,
+    "tax_amount": 182.88,
+    "bill_date": "2026-08-28",
+    "due_date": "2026-09-04",
+    "items": [
+      { "name": "Fiber 200Mbps Monthly Plan", "amount": 1016.12, "category": "SUBSCRIPTION" },
+      { "name": "GST 18%", "amount": 182.88, "category": "TAX" }
+    ],
+    "confidence_score": 0.99
+  },
+  {
+    "id": "preset_groceries",
+    "vendor": "Nature's Basket Supermarket",
+    "category": "GROCERIES",
+    "total_amount": 3280.50,
+    "tax_amount": 120.50,
+    "bill_date": "2026-08-27",
+    "due_date": "2026-09-01",
+    "items": [
+      { "name": "Organic Milk & Dairy (3 pkts)", "amount": 450.00, "category": "GROCERIES" },
+      { "name": "Fresh Vegetables & Fruits", "amount": 920.00, "category": "GROCERIES" },
+      { "name": "Pantry Essentials & Rice", "amount": 1400.00, "category": "GROCERIES" },
+      { "name": "Olive Oil & Spices", "amount": 510.50, "category": "GROCERIES" }
+    ],
+    "confidence_score": 0.96
+  },
+  {
+    "id": "preset_rent",
+    "vendor": "Palm Grove Property Management",
+    "category": "RENT",
+    "total_amount": 60000.00,
+    "tax_amount": 0.00,
+    "bill_date": "2026-08-28",
+    "due_date": "2026-09-05",
+    "items": [
+      { "name": "Monthly Flat Rent (Flat 402 - 4BHK)", "amount": 55000.00, "category": "RENT" },
+      { "name": "Society Maintenance & Parking", "amount": 5000.00, "category": "MAINTENANCE" }
+    ],
+    "confidence_score": 0.99
+  }
+]

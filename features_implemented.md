@@ -1,0 +1,24 @@
+# Features Implemented: RoomieOps AI
+
+This document tracks all features, their implementation status, and assigned developer domain in the Feature-Driven Development (FDD) workflow.
+
+## Feature Status & Ownership Matrix
+
+| Feature Area | Feature Name | Dev Domain | Status | Key Modules / Files | Verification |
+|---|---|---|---|---|---|
+| **Contract & Types** | Shared API Contract & TypeScript Types | Dev 1 | **Implemented** | `shared/schema.py`, `shared/types.ts` | Typechecked (`npm run typecheck`) & Pydantic validated in `backend/tests/test_shared_contracts.py` |
+| **Multimodal Ingestion** | Gemini Vision Receipt Extractor | Dev 1 | **Implemented** | `backend/app/agent/tools/receipt_parser.py` | Unit tested with response cleaning, fuzzy category normalization, and deterministic fallbacks in `backend/tests/test_receipt_parser.py` |
+| **Multimodal Ingestion** | Receipt Dropzone & Live Review Drawer | Dev 2 | **Implemented** | `frontend/src/components/ReceiptDropzone.tsx` | Drag & drop + preset triggers ready |
+| **Calculations** | Configurable Split Rules (Equal, SqFt, %, Itemized) | Dev 1 | **Implemented** | `backend/app/agent/tools/split_calculator.py` | Unit tested with exact penny conservation across all 4 modes in `backend/tests/test_split_calculator.py` |
+| **Debt Reduction** | Min-Cash-Flow Debt Simplification & Direct Settlement | Dev 1 | **Implemented** | `backend/app/agent/tools/debt_simplifier.py`, `backend/app/api/routes.py` | Bipartite graph tests $\le N-1$ & net balance conservation verified in `backend/tests/test_debt_simplifier.py` & `backend/tests/test_api_routes.py` |
+| **Debt Reduction** | Interactive Debt Network Graph Visualizer | Dev 2 | **Implemented** | `frontend/src/components/DebtGraph.tsx` | Before vs after reduction UI & one-tap settlement trigger ready |
+| **Payments** | UPI Deep Link (`upi://pay`) & QR Generator | Dev 1 | **Implemented** | `backend/app/agent/tools/payment_links.py` | RFC format & QR base64 verified in `backend/tests/test_payment_links.py` |
+| **Payments** | One-Tap UPI Payment Modal & Confirm Flow | Dev 2 | **Implemented** | `frontend/src/components/PaymentModal.tsx` | Split share & graph settlement modal flows ready |
+| **Autonomous Agent** | Adaptive Tone Escalation Engine (4 Stages) | Dev 1 | **Implemented** | `backend/app/agent/tools/escalation_engine.py` | 4-stage delta transitions, payee contextual formatting, and pulse processing verified in `backend/tests/test_escalation_engine.py` & `backend/tests/test_core_tools.py` |
+| **Autonomous Agent** | Cloud Scheduler / PubSub Cron & Time Simulator | Dev 1 | **Implemented** | `cloud/scheduler_setup.sh`, `backend/app/api/` | `/api/agent/pulse` & `/simulate-days` verified in `backend/tests/test_api_routes.py` |
+| **Autonomous Agent** | Real-Time Agent Activity & Audit Feed UI | Dev 2 | **Implemented** | `frontend/src/components/AgentActivityStream.tsx` | Chronological audit feed ready |
+| **Memory Bank** | Firestore Behavioral History & Late Payer Detector | Dev 1 | **Implemented** | `backend/app/agent/tools/memory_bank.py` | Rolling latency & habit badge tested in `backend/tests/test_core_tools.py` |
+| **Memory Bank** | Roommate Habit Badges & Spend Radar UI | Dev 2 | **Implemented** | `frontend/src/components/RoommateBadges.tsx` | Badges (`RAPID`, `RELIABLE`, `CHRONIC_LATE`) ready |
+| **DevOps & Cloud** | Cloud Run Dockerfile & Deployment Script | Dev 1 | **Implemented** | `cloud/Dockerfile`, `cloud/deploy.sh` | Multi-stage Docker container configured |
+| **Seed & Mock Data** | Zero-Config Mock Seed Data & Test Fixtures | Dev 1 | **Implemented** | `shared/mock_data/` | Household & preset bills seeded & loaded in test suite |
+| **Auxiliary Assets** | Sample Receipt Asset Pack & Presentation Deck | Dev 3 | Planned | `docs/assets/` | Deferred / Non-blocking auxiliary tasks |
