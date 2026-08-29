@@ -1,3 +1,156 @@
+## 2026-08-29 — Dev 1: Ticket T-18 Complete (Settlement Matrix & "Who Has Paid vs Who Is Left" Engine)
+
+### Objective
+Implement Ticket T-18: Real-time settlement status matrix aggregation engine, member segmentation (`paid_members` vs `pending_members`), escalation urgency hierarchy tracking, and `GET /api/households/{id}/settlement-status` REST endpoint.
+
+### Changes Made
+- **Agent Orchestrator Core (`backend/app/agent/core.py`)**:
+  - Implemented `get_household_settlement_status(household_id) -> HouseholdSettlementStatus`.
+  - Aggregates per-roommate `total_owed`, `total_paid`, `total_pending`, and `pending_shares_count`.
+  - Determines `highest_escalation_stage` across each debtor's unpaid shares using urgency priority ordering (`STAGE_4_OVERDUE` > `STAGE_3_DEADLINE` > `STAGE_2_NUDGE` > `STAGE_1_ANNOUNCE`).
+  - Classifies roommates into `paid_members` (`is_cleared = True`) and `pending_members` (`is_cleared = False`, sorted by highest pending amount).
+  - Summarizes each bill's status in `bills_summary` (`paid_count`, `unpaid_count`, `is_fully_settled`).
+  - Computes exact `total_billed`, `total_paid`, `total_pending`, and `cleared_percentage`.
+- **REST Endpoints (`backend/app/api/routes.py`)**:
+  - Added `GET /api/households/{household_id}/settlement-status` returning `HouseholdSettlementStatus` (with 404 handler for missing households).
+- **Storage Adapter (`backend/app/services/firestore_service.py`)**:
+  - Hardened `_seed_initial_data()` to ensure pristine in-memory resets across test runs.
+- **Frontend API Client (`frontend/src/services/api.ts`)**:
+  - Added client helper `fetchSettlementStatus(householdId: string): Promise<HouseholdSettlementStatus>`.
+- **Test Suites (`backend/tests/test_settlement_status.py`)**:
+  - Created dedicated TDD suite `backend/tests/test_settlement_status.py` with 7 comprehensive tests covering clean initial states, single/multi-expense splits, real-time transition on payment confirmation, escalation urgency hierarchy, graph debt settlement reflection, and REST API 200/404 status codes.
+- **Tickets**:
+  - Marked `tickets/T-18-backend-settlement-matrix-and-paid-left-engine.md` as **Completed**.
+
+### Files Changed
+- `backend/app/agent/core.py` [MODIFIED]
+- `backend/app/api/routes.py` [MODIFIED]
+- `backend/app/services/firestore_service.py` [MODIFIED]
+- `frontend/src/services/api.ts` [MODIFIED]
+- `backend/tests/test_settlement_status.py` [NEW]
+- `tickets/T-18-backend-settlement-matrix-and-paid-left-engine.md` [MODIFIED]
+- `features_implemented.md` [MODIFIED]
+- `tracker.md` [MODIFIED]
+
+### Verification
+- `python -m pytest backend/tests/test_settlement_status.py -v` — 7/7 passed in 0.62s.
+- `python -m pytest backend/tests -v` — 86/86 passed in 0.88s (100% pass rate across all 11 test modules).
+- `npm run typecheck --prefix frontend` — passed with 0 errors.
+
+### Current State
+Ticket T-18 is fully implemented and verified. All Dev 1 backend tickets for the `feat/account_groups` branch (T-15, T-16, T-17, T-18) are 100% complete. Real-time household settlement status can be queried at `/api/households/{id}/settlement-status` and client helper `fetchSettlementStatus` is ready for frontend widget integration.
+
+### Next Agent Instructions
+1. Dev 1 backend tasks for `feat/account_groups` are fully complete.
+2. Proceed to Dev 2 Frontend Tickets:
+   - **Ticket T-19** (`tickets/T-19-frontend-auth-context-and-profile-modal.md`): Auth Context, Profile Modal & Persona Quick-Switcher.
+   - **Ticket T-20** (`tickets/T-20-frontend-group-switcher-and-member-modal.md`): Multi-Group Switcher & Add Roommate / People Dialog.
+   - **Ticket T-21** (`tickets/T-21-frontend-who-paid-tracker-widget.md`): "Who Has Paid vs Who Is Left" Dashboard Widget & Live Actions consuming `fetchSettlementStatus`.
+
+---
+
+## 2026-08-29 — Dev 1: Ticket T-17 Complete (Multi-Group & Member Management API)
+
+### Objective
+Implement Ticket T-17: AI & Backend Multi-Group / Household & Roommate Addition API (`/api/households/*`) with auto-initialized memory habit profiles, group isolation, and dynamic expense splitting.
+
+### Changes Made
+- **Storage Adapter & Multi-Household Persistence (`backend/app/services/firestore_service.py`)**:
+  - Implemented `list_households(user_id=None)` with optional user association filtering.
+  - Implemented `create_household(...)` with automatic ID generation, optional creator-roommate conversion, user-household linking in `auth_service`, and memory profile initialization.
+  - Implemented `add_member_to_household(...)` with email duplicate validation and automatic `HabitProfile` memory bank initialization (`avg_settlement_hours=24.0`, `on_time_ratio=1.0`, `habit_badge=RELIABLE`).
+  - Implemented `update_member_in_household(...)` supporting updates to room square footage, name, phone, custom split percentages, and UPI handles.
+  - Implemented `remove_member_from_household(...)` to delete members safely.
+- **REST Endpoints (`backend/app/api/routes.py`)**:
+  - Added `GET /api/households` (lists all households or filters by authenticated user/query param).
+  - Added `POST /api/households` (creates a household, status 201).
+  - Added `POST /api/households/{id}/members` (adds a roommate, status 201).
+  - Added `PATCH /api/households/{id}/members/{roommate_id}` (updates roommate attributes).
+  - Added `DELETE /api/households/{id}/members/{roommate_id}` (removes a roommate).
+- **Frontend API Client (`frontend/src/services/api.ts`)**:
+  - Added client helpers `fetchHouseholds`, `createHousehold`, `addHouseholdMember`, `updateHouseholdMember`, and `removeHouseholdMember`.
+- **Test Suites (`backend/tests/test_groups.py`)**:
+  - Created dedicated TDD suite `backend/tests/test_groups.py` with 9 comprehensive tests covering group creation, user association, member CRUD, habit profile auto-initialization, duplicate email rejection, group isolation, and dynamic split calculation across newly added roommates.
+- **Tickets**:
+  - Marked `tickets/T-17-backend-multigroup-and-member-management.md` as **Completed**.
+
+### Files Changed
+- `backend/app/services/firestore_service.py` [MODIFIED]
+- `backend/app/api/routes.py` [MODIFIED]
+- `frontend/src/services/api.ts` [MODIFIED]
+- `backend/tests/test_groups.py` [NEW]
+- `tickets/T-17-backend-multigroup-and-member-management.md` [MODIFIED]
+- `features_implemented.md` [MODIFIED]
+- `tracker.md` [MODIFIED]
+
+### Verification
+- `python -m pytest backend/tests/test_groups.py -v` — 9/9 passed in 0.63s.
+- `python -m pytest backend/tests -v` — 79/79 passed in 0.86s (100% pass rate across all 10 test modules).
+- `npm run typecheck --prefix frontend` — passed with 0 errors.
+
+### Current State
+Ticket T-17 is fully implemented and verified. Multiple households can be created, listed, and populated with members (with room square footage and UPI handles). Group isolation and dynamic expense splitting across members are active.
+
+### Next Agent Instructions
+1. Run `python -m pytest backend/tests` to verify backend integrity.
+2. Next Dev 1 ticket in the pipeline is **Ticket T-18** (`tickets/T-18-backend-settlement-matrix-and-paid-left-engine.md`).
+3. For frontend, Dev 2 can implement **Ticket T-20** (`tickets/T-20-frontend-group-switcher-and-member-modal.md`) integrating with these new `/api/households/*` endpoints.
+
+---
+
+## 2026-08-29 — Dev 1: Tickets T-15 & T-16 Complete (Auth, User Profiles & Shared Schemas)
+
+### Objective
+Implement Ticket T-15 (Shared Contracts for Auth, Multi-Group & Settlement Matrix) and Ticket T-16 (Backend Auth Service, User Profiles & Demo Personas) for the `feat/account_groups` branch.
+
+### Changes Made
+- **Shared Contracts (`shared/schema.py`, `shared/types.ts`)**:
+  - Defined `User`, `AuthToken`, `UserRegisterRequest`, `UserLoginRequest`, and `UserProfileUpdateRequest`.
+  - Defined `CreateHouseholdRequest`, `AddMemberRequest`, and `UpdateMemberRequest`.
+  - Defined `HouseholdSettlementStatus`, `MemberPaymentSummary`, and `BillShareStatusSummary` for the "Who Has Paid vs Who Is Left" matrix.
+  - Guaranteed 100% type parity between Python Pydantic models and TypeScript interfaces.
+- **Backend Auth Service (`backend/app/services/auth_service.py`)**:
+  - Implemented `AuthService` with salted password hashing, bearer session tokens, user profiles, and pre-seeded demo personas (Alex Chen, Priya Sharma, Rahul Verma, Samira Khan).
+  - Added fast one-tap persona switching for zero-friction hackathon demos (`switch_persona`).
+- **REST Endpoints (`backend/app/api/routes.py`)**:
+  - Added `POST /api/auth/register` (registration -> `AuthToken`).
+  - Added `POST /api/auth/login` (login -> `AuthToken`).
+  - Added `GET /api/auth/me` (authenticated user profile retrieval).
+  - Added `PATCH /api/auth/profile` (profile attribute updates).
+  - Added `GET /api/auth/personas` (listing all switchable demo personas).
+  - Added `POST /api/auth/switch-persona/{persona_id}` (instant session swap).
+- **Test Suites (`backend/tests/`)**:
+  - Expanded `backend/tests/test_shared_contracts.py` with acceptance tests for all new schemas.
+  - Created dedicated TDD suite `backend/tests/test_auth.py` with 10 unit and route integration tests.
+- **Tickets**:
+  - Marked `tickets/T-15-shared-contracts-for-auth-and-groups.md` and `tickets/T-16-backend-auth-and-user-profile-api.md` as **Completed**.
+
+### Files Changed
+- `shared/schema.py` [MODIFIED]
+- `shared/types.ts` [MODIFIED]
+- `backend/app/services/auth_service.py` [NEW]
+- `backend/app/api/routes.py` [MODIFIED]
+- `backend/tests/test_shared_contracts.py` [MODIFIED]
+- `backend/tests/test_auth.py` [NEW]
+- `tickets/T-15-shared-contracts-for-auth-and-groups.md` [MODIFIED]
+- `tickets/T-16-backend-auth-and-user-profile-api.md` [MODIFIED]
+- `features_implemented.md` [MODIFIED]
+- `tracker.md` [MODIFIED]
+
+### Verification
+- `python -m pytest backend/tests -v` — 70/70 passed in 0.76s (100% pass rate across all 9 test modules).
+- `npm run typecheck --prefix frontend` — passed with 0 errors.
+
+### Current State
+Tickets T-15 and T-16 are completely implemented and verified. Auth tokens, registration/login, user profiles, and persona switching are active and operational.
+
+### Next Agent Instructions
+1. Run `python -m pytest backend/tests` to verify backend integrity.
+2. Next Dev 1 ticket in the pipeline is **Ticket T-17** (`tickets/T-17-backend-multigroup-and-member-management.md`) followed by **Ticket T-18** (`tickets/T-18-backend-settlement-matrix-and-paid-left-engine.md`).
+3. For frontend, Dev 2 can implement **Ticket T-19** (`tickets/T-19-frontend-auth-context-and-profile-modal.md`) integrating with these new `/api/auth/*` endpoints.
+
+---
+
 ## 2026-08-29 — Dev 1 Completion: Tickets T-12 & T-13 Complete (Backend & Cloud Deployment)
 
 ### Objective
@@ -279,7 +432,43 @@ Resolve all 4 findings on the Standards axis and 2 findings on the Spec axis dis
 ### Current State
 All review findings resolved. Seams between storage adapter, domain algorithms, and agent orchestrator are clean and fully tested.
 
+
+---
+
+## 2026-08-29 — Feature Planning & Ticket Breakdown: `feat/account_groups`
+
+### Objective
+Divide the new feature request into AI Backend (Dev 1) and Frontend (Dev 2) tickets using `/tdd` guidelines for:
+1. User Profile & Authentication (Session & Demo Personas)
+2. Multi-Group Creation & Adding People
+3. "Who Has Paid vs Who Is Left" Real-Time Dashboard Tracker
+
+### Tickets Created
+- **AI & Backend Engine (Dev 1)**:
+  - [`tickets/T-15-shared-contracts-for-auth-and-groups.md`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/tickets/T-15-shared-contracts-for-auth-and-groups.md): Shared Contracts & Schemas for Auth, Multi-Group & Settlement Status
+  - [`tickets/T-16-backend-auth-and-user-profile-api.md`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/tickets/T-16-backend-auth-and-user-profile-api.md): AI & Backend Auth Service & User Profile API (`/api/auth/*`)
+  - [`tickets/T-17-backend-multigroup-and-member-management.md`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/tickets/T-17-backend-multigroup-and-member-management.md): AI & Backend Multi-Group / Household & Roommate Addition API (`/api/households/*`)
+  - [`tickets/T-18-backend-settlement-matrix-and-paid-left-engine.md`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/tickets/T-18-backend-settlement-matrix-and-paid-left-engine.md): AI & Backend Settlement Matrix & "Who Has Paid vs Who Is Left" Aggregation Engine
+- **Frontend & UX Specialist (Dev 2)**:
+  - [`tickets/T-19-frontend-auth-context-and-profile-modal.md`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/tickets/T-19-frontend-auth-context-and-profile-modal.md): Frontend Auth Context, Profile Modal & Persona Quick-Switcher
+  - [`tickets/T-20-frontend-group-switcher-and-member-modal.md`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/tickets/T-20-frontend-group-switcher-and-member-modal.md): Frontend Multi-Group Switcher & Add Roommate / People Dialog
+  - [`tickets/T-21-frontend-who-paid-tracker-widget.md`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/tickets/T-21-frontend-who-paid-tracker-widget.md): Frontend "Who Has Paid vs Who Is Left" Dashboard Widget & Live Actions
+
+### Files Created/Modified
+- `tickets/T-15-shared-contracts-for-auth-and-groups.md` [NEW]
+- `tickets/T-16-backend-auth-and-user-profile-api.md` [NEW]
+- `tickets/T-17-backend-multigroup-and-member-management.md` [NEW]
+- `tickets/T-18-backend-settlement-matrix-and-paid-left-engine.md` [NEW]
+- `tickets/T-19-frontend-auth-context-and-profile-modal.md` [NEW]
+- `tickets/T-20-frontend-group-switcher-and-member-modal.md` [NEW]
+- `tickets/T-21-frontend-who-paid-tracker-widget.md` [NEW]
+- `tracker.md` [MODIFIED]
+
+### Current State
+Tickets are defined, prioritized, and linked. Ready for vertical slice TDD implementation starting with T-15 and T-16.
+
 ### Next Agent Instructions
-1. Run `python -m pytest backend/tests` to verify backend integrity.
-2. For frontend dev, run `cd frontend && npm run dev` to preview dashboard at `http://localhost:3000`.
-3. To test live end-to-end flow: Ingest preset bills via UI, click **Run Min-Cash-Flow**, click **UPI Pay ↗** on a settlement transfer, and click **"I've Paid — Confirm Webhook"** to verify seamless settlement resolution.
+1. Implement T-15 (Shared schemas) and T-16 (Backend Auth TDD suite `test_auth.py` + `auth_service.py`).
+2. Proceed to T-17 and T-18 for group and settlement matrix endpoints.
+3. Implement frontend UI tickets T-19, T-20, and T-21.
+

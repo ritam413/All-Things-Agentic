@@ -17,8 +17,10 @@ if str(ROOT_DIR) not in sys.path:
 from shared.schema import (
     DEFAULT_HOUSEHOLD_ID,
     Household,
+    Roommate,
     Expense,
     SplitShare,
+    SplitRuleType,
     AgentActivityLog,
     HabitProfile,
     HabitBadge,
@@ -60,6 +62,12 @@ class StorageRepository:
 
     def _seed_initial_data(self):
         """Loads default seed data from shared/mock_data/."""
+        self.households.clear()
+        self.expenses.clear()
+        self.activity_logs.clear()
+        self.memory_profiles.clear()
+        self.simulated_days_offset = 0
+
         seed_path = ROOT_DIR / "shared" / "mock_data" / "household_seed.json"
         if seed_path.exists():
             try:
@@ -168,6 +176,171 @@ class StorageRepository:
         if not hh:
             return list(self.memory_profiles.values())
         return [self.memory_profiles[rm.id] for rm in hh.roommates if rm.id in self.memory_profiles]
+
+    def list_households(self, user_id: Optional[str] = None) -> List[Household]:
+        if user_id:
+            from backend.app.services.auth_service import auth_service
+            user = auth_service.get_user_by_id(user_id)
+            if user and user.household_ids:
+                return [hh for hh in self.households.values() if hh.id in user.household_ids]
+        return list(self.households.values())
+
+    def create_household(
+        self,
+        name: str,
+        default_currency: str = "INR",
+        default_split_rule: SplitRuleType = SplitRuleType.EQUAL,
+        creator_user_id: Optional[str] = None,
+        initial_roommates: Optional[List[Roommate]] = None,
+    ) -> Household:
+        import uuid
+        household_id = f"hh_{uuid.uuid4().hex[:8]}"
+        roommates_list: List[Roommate] = list(initial_roommates or [])
+
+        if creator_user_id:
+            from backend.app.services.auth_service import auth_service
+            auth_service.add_household_to_user(creator_user_id, household_id)
+            creator_user = auth_service.get_user_by_id(creator_user_id)
+            if creator_user and not any(rm.id == creator_user.id or rm.email.lower() == creator_user.email.lower() for rm in roommates_list):
+                creator_rm = Roommate(
+                    id=creator_user.id,
+                    name=creator_user.name,
+                    email=creator_user.email,
+                    phone=creator_user.phone or "",
+                    upi_vpa=creator_user.upi_vpa or f"{creator_user.name.lower().replace(' ', '')}@upi",
+                    room_sq_ft=250.0,
+                    habit_badge=HabitBadge.RELIABLE,
+                    avg_settlement_hours=24.0,
+                )
+                roommates_list.append(creator_rm)
+
+        hh = Household(
+            id=household_id,
+            name=name,
+            default_currency=default_currency,
+            default_split_rule=default_split_rule,
+            roommates=roommates_list,
+        )
+        self.save_household(hh)
+
+        # Seed habit profiles for any initial roommates
+        for rm in roommates_list:
+            if rm.id not in self.memory_profiles:
+                self.memory_profiles[rm.id] = HabitProfile(
+                    roommate_id=rm.id,
+                    roommate_name=rm.name,
+                    avg_settlement_hours=rm.avg_settlement_hours,
+                    on_time_ratio=1.0,
+                    total_bills_settled=0,
+                    consecutive_late_count=0,
+                    habit_badge=rm.habit_badge or HabitBadge.RELIABLE,
+                )
+
+        return hh
+
+    def add_member_to_household(
+        self,
+        household_id: str,
+        name: str,
+        email: str,
+        phone: Optional[str] = "",
+        upi_vpa: str = "",
+        room_sq_ft: Optional[float] = 250.0,
+        custom_split_pct: Optional[float] = None,
+    ) -> Roommate:
+        import uuid
+        from shared.schema import Roommate, HabitProfile, HabitBadge
+        hh = self.get_household(household_id)
+        if not hh:
+            raise ValueError(f"Household '{household_id}' not found.")
+
+        # Check if already present by email
+        for rm in hh.roommates:
+            if rm.email.lower() == email.strip().lower():
+                raise ValueError(f"Roommate with email '{email}' is already in this household.")
+
+        rm_id = f"rm_{uuid.uuid4().hex[:6]}"
+        roommate = Roommate(
+            id=rm_id,
+            name=name.strip(),
+            email=email.strip().lower(),
+            phone=phone.strip() if phone else "",
+            upi_vpa=upi_vpa.strip(),
+            room_sq_ft=room_sq_ft if room_sq_ft is not None else 250.0,
+            custom_split_pct=custom_split_pct,
+            habit_badge=HabitBadge.RELIABLE,
+            avg_settlement_hours=24.0,
+        )
+
+        hh.roommates.append(roommate)
+        self.save_household(hh)
+
+        # Automatically initialize HabitProfile in memory bank
+        profile = HabitProfile(
+            roommate_id=roommate.id,
+            roommate_name=roommate.name,
+            avg_settlement_hours=24.0,
+            on_time_ratio=1.0,
+            total_bills_settled=0,
+            consecutive_late_count=0,
+            habit_badge=HabitBadge.RELIABLE,
+        )
+        self.save_habit_profile(profile)
+
+        return roommate
+
+    def update_member_in_household(
+        self,
+        household_id: str,
+        roommate_id: str,
+        name: Optional[str] = None,
+        email: Optional[str] = None,
+        phone: Optional[str] = None,
+        upi_vpa: Optional[str] = None,
+        room_sq_ft: Optional[float] = None,
+        custom_split_pct: Optional[float] = None,
+    ) -> Roommate:
+        hh = self.get_household(household_id)
+        if not hh:
+            raise ValueError(f"Household '{household_id}' not found.")
+
+        target_rm = next((rm for rm in hh.roommates if rm.id == roommate_id), None)
+        if not target_rm:
+            raise ValueError(f"Roommate '{roommate_id}' not found in household '{household_id}'.")
+
+        if name is not None:
+            target_rm.name = name.strip()
+        if email is not None:
+            target_rm.email = email.strip().lower()
+        if phone is not None:
+            target_rm.phone = phone.strip()
+        if upi_vpa is not None:
+            target_rm.upi_vpa = upi_vpa.strip()
+        if room_sq_ft is not None:
+            target_rm.room_sq_ft = room_sq_ft
+        if custom_split_pct is not None:
+            target_rm.custom_split_pct = custom_split_pct
+
+        self.save_household(hh)
+
+        # Update profile name if changed
+        if name is not None and target_rm.id in self.memory_profiles:
+            self.memory_profiles[target_rm.id].roommate_name = target_rm.name
+
+        return target_rm
+
+    def remove_member_from_household(self, household_id: str, roommate_id: str) -> bool:
+        hh = self.get_household(household_id)
+        if not hh:
+            raise ValueError(f"Household '{household_id}' not found.")
+
+        initial_len = len(hh.roommates)
+        hh.roommates = [rm for rm in hh.roommates if rm.id != roommate_id]
+        if len(hh.roommates) == initial_len:
+            raise ValueError(f"Roommate '{roommate_id}' not found in household '{household_id}'.")
+
+        self.save_household(hh)
+        return True
 
 
 # Global Singleton Storage instance

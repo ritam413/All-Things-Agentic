@@ -200,3 +200,150 @@ class TestSharedContractsAndFixtures:
             amount=500.0,
         )
         assert req.amount == 500.0
+
+    def test_auth_and_user_models_instantiation(self):
+        """Validates Ticket T-15 User and Auth models."""
+        from shared.schema import (
+            User,
+            AuthToken,
+            UserRegisterRequest,
+            UserLoginRequest,
+            UserProfileUpdateRequest,
+        )
+
+        user = User(
+            id="usr_123",
+            name="Alex Chen",
+            email="alex@example.com",
+            phone="+919876543210",
+            upi_vpa="alex@okaxis",
+            household_ids=["hh_palm_grove_402"],
+            created_at="2026-08-29T10:00:00Z",
+        )
+        assert user.name == "Alex Chen"
+        assert len(user.household_ids) == 1
+
+        token = AuthToken(
+            access_token="test_jwt_token_xyz",
+            token_type="bearer",
+            user=user,
+        )
+        assert token.access_token == "test_jwt_token_xyz"
+        assert token.user.email == "alex@example.com"
+
+        reg = UserRegisterRequest(
+            name="New User",
+            email="new@example.com",
+            password="secretpassword",
+            phone="+919999999999",
+            upi_vpa="new@upi",
+        )
+        assert reg.password == "secretpassword"
+
+        login = UserLoginRequest(
+            email="new@example.com",
+            password="secretpassword",
+        )
+        assert login.email == "new@example.com"
+
+        update = UserProfileUpdateRequest(
+            name="Updated Name",
+            upi_vpa="updated@upi",
+        )
+        assert update.name == "Updated Name"
+        assert update.phone is None
+
+    def test_household_management_and_settlement_models(self):
+        """Validates Ticket T-15 Household requests and Settlement status matrix schemas."""
+        from shared.schema import (
+            CreateHouseholdRequest,
+            AddMemberRequest,
+            UpdateMemberRequest,
+            MemberPaymentSummary,
+            BillShareStatusSummary,
+            HouseholdSettlementStatus,
+            EscalationStage,
+            ExpenseCategory,
+            SplitRuleType,
+        )
+
+        create_hh = CreateHouseholdRequest(
+            name="New Horizon Flat 101",
+            default_currency="INR",
+            default_split_rule=SplitRuleType.ROOM_AREA,
+            creator_user_id="usr_123",
+        )
+        assert create_hh.name == "New Horizon Flat 101"
+        assert create_hh.default_split_rule == SplitRuleType.ROOM_AREA
+
+        add_mem = AddMemberRequest(
+            name="Siddharth",
+            email="sid@example.com",
+            upi_vpa="sid@okhdfc",
+            room_sq_ft=320.0,
+        )
+        assert add_mem.room_sq_ft == 320.0
+
+        update_mem = UpdateMemberRequest(
+            room_sq_ft=350.0,
+            custom_split_pct=30.0,
+        )
+        assert update_mem.room_sq_ft == 350.0
+
+        mem_summary = MemberPaymentSummary(
+            roommate_id="rm_alex",
+            roommate_name="Alex Chen",
+            total_owed=1500.0,
+            total_paid=1500.0,
+            total_pending=0.0,
+            is_cleared=True,
+            upi_vpa="alex@okaxis",
+            pending_shares_count=0,
+            highest_escalation_stage=None,
+        )
+        assert mem_summary.is_cleared is True
+
+        pending_mem = MemberPaymentSummary(
+            roommate_id="rm_rahul",
+            roommate_name="Rahul Verma",
+            total_owed=1200.0,
+            total_paid=0.0,
+            total_pending=1200.0,
+            is_cleared=False,
+            upi_vpa="rahul@ybl",
+            pending_shares_count=2,
+            highest_escalation_stage=EscalationStage.STAGE_3_DEADLINE,
+        )
+        assert pending_mem.total_pending == 1200.0
+        assert pending_mem.highest_escalation_stage == EscalationStage.STAGE_3_DEADLINE
+
+        bill_summary = BillShareStatusSummary(
+            expense_id="exp_01",
+            vendor="Power Corp",
+            category=ExpenseCategory.ELECTRICITY,
+            total_amount=2400.0,
+            due_date="2026-09-01",
+            payer_id="rm_alex",
+            payer_name="Alex Chen",
+            paid_count=2,
+            unpaid_count=2,
+            is_fully_settled=False,
+            shares=[],
+        )
+        assert bill_summary.paid_count == 2
+        assert bill_summary.is_fully_settled is False
+
+        status = HouseholdSettlementStatus(
+            household_id="hh_palm_grove_402",
+            total_billed=2400.0,
+            total_paid=1200.0,
+            total_pending=1200.0,
+            cleared_percentage=50.0,
+            paid_members=[mem_summary],
+            pending_members=[pending_mem],
+            bills_summary=[bill_summary],
+        )
+        assert status.cleared_percentage == 50.0
+        assert len(status.paid_members) == 1
+        assert len(status.pending_members) == 1
+

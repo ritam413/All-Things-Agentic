@@ -174,3 +174,109 @@ export interface HabitProfile {
   consecutive_late_count: number;
   habit_badge: HabitBadge;
 }
+
+// --- User & Auth ---
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  upi_vpa?: string;
+  avatar_url?: string | null;
+  household_ids: string[];
+  created_at?: string;
+}
+
+export interface AuthToken {
+  access_token: string;
+  token_type: string;
+  user: User;
+}
+
+export interface UserRegisterRequest {
+  name: string;
+  email: string;
+  password: string;
+  phone?: string;
+  upi_vpa?: string;
+}
+
+export interface UserLoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface UserProfileUpdateRequest {
+  name?: string;
+  phone?: string;
+  upi_vpa?: string;
+  avatar_url?: string | null;
+}
+
+// --- Household Management Requests ---
+
+export interface CreateHouseholdRequest {
+  name: string;
+  default_currency?: string;
+  default_split_rule?: SplitRuleType;
+  creator_user_id?: string;
+}
+
+export interface AddMemberRequest {
+  name: string;
+  email: string;
+  phone?: string;
+  upi_vpa: string;
+  room_sq_ft?: number;
+  custom_split_pct?: number;
+}
+
+export interface UpdateMemberRequest {
+  name?: string;
+  email?: string;
+  phone?: string;
+  upi_vpa?: string;
+  room_sq_ft?: number;
+  custom_split_pct?: number;
+}
+
+// --- Settlement Status & "Who Has Paid vs Who Is Left" ---
+
+export interface MemberPaymentSummary {
+  roommate_id: string;
+  roommate_name: string;
+  total_owed: number;
+  total_paid: number;
+  total_pending: number;
+  is_cleared: boolean;
+  upi_vpa: string;
+  pending_shares_count: number;
+  highest_escalation_stage?: EscalationStage | null;
+}
+
+export interface BillShareStatusSummary {
+  expense_id: string;
+  vendor: string;
+  category: ExpenseCategory;
+  total_amount: number;
+  due_date: string;
+  payer_id: string;
+  payer_name: string;
+  paid_count: number;
+  unpaid_count: number;
+  is_fully_settled: boolean;
+  shares: SplitShare[];
+}
+
+export interface HouseholdSettlementStatus {
+  household_id: string;
+  total_billed: number;
+  total_paid: number;
+  total_pending: number;
+  cleared_percentage: number;
+  paid_members: MemberPaymentSummary[];
+  pending_members: MemberPaymentSummary[];
+  bills_summary: BillShareStatusSummary[];
+}
+
