@@ -86,9 +86,13 @@
 
   /* Emil Kowalski tactile button feedback: scale(0.97) on pointer-down */
   button, [role="button"], a.btn {
-    transition: transform var(--duration-fast) var(--ease-out), background-color var(--duration-normal) ease, border-color var(--duration-normal) ease, opacity var(--duration-normal) ease;
+    transition: transform var(--duration-fast) var(--ease-out), background-color var(--duration-normal) ease, border-color var(--duration-normal) ease, opacity var(--duration-normal) ease, box-shadow var(--duration-normal) var(--ease-out);
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+  }
+
+  button:hover:not(:disabled), [role="button"]:hover:not([aria-disabled="true"]), a.btn:hover {
+    transform: translateY(-1px);
   }
 
   button:active:not(:disabled), [role="button"]:active:not([aria-disabled="true"]), a.btn:active {
@@ -96,7 +100,7 @@
   }
 }
 
-/* Say Briefly Surface Cards */
+/* Say Briefly Surface Cards with Emil Kowalski Hover States */
 .paper-card {
   background-color: var(--color-cream-paper);
   border: 1px solid var(--color-pencil-gray);
@@ -107,6 +111,8 @@
 
 .paper-card:hover {
   border-color: var(--color-forest-ink);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-subtle-2), 0 8px 20px -4px rgba(26, 51, 0, 0.08);
 }
 
 /* Sticky Note Accent Cards */
@@ -115,6 +121,11 @@
   border: 1px solid var(--color-forest-ink);
   border-radius: var(--radius-cards);
   color: var(--color-forest-ink);
+  transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out);
+}
+.sticky-mint:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(26, 51, 0, 0.1);
 }
 
 .sticky-teal {
@@ -122,6 +133,11 @@
   border: 1px solid var(--color-forest-ink);
   border-radius: var(--radius-cards);
   color: var(--color-forest-ink);
+  transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out);
+}
+.sticky-teal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(26, 51, 0, 0.1);
 }
 
 .sticky-blush {
@@ -129,6 +145,11 @@
   border: 1px solid var(--color-forest-ink);
   border-radius: var(--radius-cards);
   color: var(--color-forest-ink);
+  transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out);
+}
+.sticky-blush:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(26, 51, 0, 0.1);
 }
 
 .sticky-yellow {
@@ -136,6 +157,11 @@
   border: 1px solid var(--color-forest-ink);
   border-radius: var(--radius-cards);
   color: var(--color-forest-ink);
+  transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out);
+}
+.sticky-yellow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(26, 51, 0, 0.1);
 }
 
 /* Say Briefly Modal Surface */
@@ -171,6 +197,141 @@
 .animate-pop-in {
   animation: saybriefly-pop-in 220ms var(--ease-out) forwards;
   will-change: transform, opacity;
+}
+
+/* ========================================================================= */
+/* /animate: Hero Text Kinetic Reveal & Hover States                         */
+/* ========================================================================= */
+@keyframes text-stagger-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-text-appear-1 {
+  animation: text-stagger-appear 400ms var(--ease-out) 60ms forwards;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.animate-text-appear-2 {
+  animation: text-stagger-appear 460ms var(--ease-out) 160ms forwards;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.animate-text-appear-3 {
+  animation: text-stagger-appear 500ms var(--ease-out) 280ms forwards;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.animate-text-appear-4 {
+  animation: text-stagger-appear 520ms var(--ease-out) 400ms forwards;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.animate-text-appear-5 {
+  animation: text-stagger-appear 540ms var(--ease-out) 520ms forwards;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Headline Sticker & Marker Hover States */
+.headline-sticker {
+  display: inline-block;
+  background-color: var(--color-highlighter-yellow);
+  padding: 0.1em 0.35em;
+  border-radius: 6px;
+  border: 1.5px solid var(--color-forest-ink);
+  color: var(--color-forest-ink);
+  box-shadow: 0 2px 4px rgba(26, 51, 0, 0.08);
+  transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out), background-color 180ms ease;
+  cursor: default;
+}
+
+.headline-sticker:hover {
+  transform: translateY(-3px) rotate(-1.5deg) scale(1.03);
+  box-shadow: 0 8px 20px -3px rgba(255, 233, 92, 0.8), 0 2px 6px rgba(26, 51, 0, 0.12);
+  background-color: #ffed6e;
+}
+
+.headline-sticker:active {
+  transform: scale(0.97) rotate(0deg);
+}
+
+.headline-word {
+  display: inline-block;
+  transition: transform 180ms var(--ease-out), color 180ms ease;
+}
+
+.headline-word:hover {
+  transform: translateY(-2px);
+}
+
+/* Marker Pen expansion effect */
+@keyframes marker-wash {
+  0% {
+    background-size: 0% 100%;
+  }
+  100% {
+    background-size: 100% 100%;
+  }
+}
+
+.animate-marker-wash {
+  background-image: linear-gradient(var(--color-highlighter-yellow), var(--color-highlighter-yellow));
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  animation: marker-wash 600ms var(--ease-out) 320ms backwards;
+}
+
+/* ========================================================================= */
+/* /animate: Flow of Money Animated Particles & Stream                       */
+/* ========================================================================= */
+@keyframes money-stream-dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.money-flow-stream {
+  stroke-dasharray: 6, 6;
+  animation: money-stream-dash 1.2s linear infinite;
+}
+
+@keyframes money-pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(26, 51, 0, 0.2);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 8px rgba(255, 233, 92, 0.4);
+  }
+}
+
+.money-node-pulse {
+  animation: money-pulse-glow 2.2s var(--ease-in-out) infinite;
+}
+
+@keyframes float-currency {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(2deg);
+  }
+}
+
+.animate-float-currency {
+  animation: float-currency 3s var(--ease-in-out) infinite;
 }
 
 /* Soft pulse for autonomous agent indicator */

@@ -1,3 +1,63 @@
+## 2026-08-29 — Say Briefly Favicon Creation & Kinetic Headline Animation with Tactile Hover States via /emil-design-eng & /animate
+
+### Objective
+Create the Say Briefly yellow square monogram favicon and implement kinetic text animations and physical hover states on the display headline and interactive cards.
+
+### Changes Made
+1. **Favicon Implementation (`frontend/src/app/icon.svg` & `frontend/public/favicon.svg`)**:
+   - Implemented SVG favicon lockup: `#ffe95c` yellow square with `6px` radius and `#1a3300` hand-drawn 'lo' monogram.
+   - Wired into `frontend/src/app/layout.tsx` `<head>` and Next.js metadata.
+2. **Kinetic Display Headline Animation (`frontend/src/app/globals.css` & `frontend/src/app/page.tsx`)**:
+   - Split hero display headline into kinetic words (`.headline-word`) and interactive highlighter badge (`.headline-sticker`).
+   - Added hover state to `.headline-sticker`: `transform: translateY(-3px) rotate(-1.5deg) scale(1.03)`, marker glow `box-shadow: 0 8px 20px -3px rgba(255, 233, 92, 0.8), 0 2px 6px rgba(26, 51, 0, 0.12)`, active press state `scale(0.97)`.
+3. **Card & Button Hover Polish**:
+   - Added `translateY(-2px)` and refined soft shadows to `.paper-card`, `.sticky-mint`, `.sticky-teal`, `.sticky-blush`, and `.sticky-yellow` on hover.
+
+### Files Changed
+- `frontend/src/app/icon.svg` [NEW]
+- `frontend/public/favicon.svg` [NEW]
+- `frontend/src/app/layout.tsx` [MODIFIED]
+- `frontend/src/app/globals.css` [MODIFIED]
+- `frontend/src/app/page.tsx` [MODIFIED]
+- `tracker.md` [MODIFIED]
+
+### Verification
+- `npm run typecheck --prefix frontend` — passed with 0 errors.
+
+---
+
+## 2026-08-29 — Staggered Hero Text Load Animations & Interactive Flow of Money Stream via /animate
+
+### Objective
+Implement initial page load text stagger animations and an interactive, animated visual section showing the flow of money across roommates, complying with `/animate` and `/emil-design-eng` rules.
+
+### Changes Made
+1. **Staggered Text Entrance Keyframes (`frontend/src/app/globals.css`)**:
+   - Implemented `.animate-text-appear-1` through `.animate-text-appear-5` with staggered delays (60ms, 160ms, 280ms, 400ms, 520ms) and custom `--ease-out: cubic-bezier(0.23, 1, 0.32, 1)`.
+   - Starting state: `transform: translateY(14px) scale(0.98); opacity: 0;` (never scale from 0).
+   - Added `.animate-marker-wash` for smooth highlighter pen background expansion.
+2. **Flow of Money Stream Animations (`frontend/src/app/globals.css`)**:
+   - Added `.money-flow-stream` with SVG stroke-dasharray animation for moving money streams.
+   - Added `.money-node-pulse` and `.animate-float-currency` for tactile floating currency nodes.
+3. **Interactive Money Flow Visualizer (`frontend/src/components/MoneyFlowVisualizer.tsx`)**:
+   - Built a 4-step interactive money flow graph: **1. Receipt Ingested** ➔ **2. Weighted Split** ➔ **3. Min-Cash-Flow Debt Reduction** ➔ **4. Direct Zero-Custody UPI Pay**.
+   - Includes auto-play loop (2.8s intervals) and step-by-step click interaction.
+4. **Dashboard Integration (`frontend/src/app/page.tsx`)**:
+   - Applied staggered load animations to Nav, Eyebrow badge, Display Headline, Subhead, and Credibility Strip.
+   - Mounted `<MoneyFlowVisualizer />` right beneath the Hero section.
+
+### Files Changed
+- `frontend/src/app/globals.css` [MODIFIED]
+- `frontend/src/components/MoneyFlowVisualizer.tsx` [NEW]
+- `frontend/src/app/page.tsx` [MODIFIED]
+- `tracker.md` [MODIFIED]
+
+### Verification
+- `npm run typecheck --prefix frontend` — passed with 0 errors.
+- `python -m pytest backend/tests -v` — 86/86 passed in 1.25s.
+
+---
+
 ## 2026-08-29 — Say Briefly Design System Overhaul via /emil-design-eng and /animate
 
 ### Objective

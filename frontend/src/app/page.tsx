@@ -26,6 +26,7 @@ import { UserProfileModal } from '../components/UserProfileModal';
 import { AuthModal } from '../components/AuthModal';
 import { GroupManagementModal } from '../components/GroupManagementModal';
 import { WhoPaidTracker } from '../components/WhoPaidTracker';
+import { MoneyFlowVisualizer } from '../components/MoneyFlowVisualizer';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'sonner';
 import {
@@ -105,12 +106,12 @@ export default function DashboardPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#fcfaf5] text-[#1a3300] p-4 sm:p-6 lg:p-10 max-w-[1200px] mx-auto space-y-12 font-sans">
-      {/* 1. Floating Pill Top Navigation Bar */}
-      <header className="bg-[#fcfaf5] border border-[#b6b6b6] rounded-[16px] p-3 sm:px-6 sm:py-3.5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+    <main className="min-h-screen bg-[#fcfaf5] text-[#1a3300] p-4 sm:p-6 lg:p-10 max-w-[1200px] mx-auto space-y-10 font-sans">
+      {/* 1. Floating Pill Top Navigation Bar (Animated Stagger 1) */}
+      <header className="bg-[#fcfaf5] border border-[#b6b6b6] rounded-[16px] p-3 sm:px-6 sm:py-3.5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)] animate-text-appear-1">
         {/* Logo Lockup */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#ffe95c] rounded-[6px] border border-[#1a3300] flex items-center justify-center font-bold text-[#1a3300] text-base shadow-sm">
+          <div className="w-10 h-10 bg-[#ffe95c] rounded-[6px] border border-[#1a3300] flex items-center justify-center font-bold text-[#1a3300] text-base shadow-sm hover:rotate-3 transition-transform">
             lo
           </div>
           <div>
@@ -176,29 +177,30 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      {/* 2. Hero Section: Display Headline with Yellow Marker Wash */}
-      <section className="text-center max-w-3xl mx-auto space-y-5 pt-2 sm:pt-4">
-        {/* Eyebrow Tagline Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#ffe95c] border border-[#1a3300] rounded-[6px] text-xs font-medium text-[#1a3300]">
+      {/* 2. Hero Section: Smooth Staggered Load Animations */}
+      <section className="text-center max-w-3xl mx-auto space-y-4 pt-2 sm:pt-4">
+        {/* Eyebrow Tagline Badge (Stagger 2) */}
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#ffe95c] border border-[#1a3300] rounded-[6px] text-xs font-medium text-[#1a3300] animate-text-appear-2">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Google Agentic Hackathon 2026 • The Taskmaster Track</span>
         </div>
 
-        {/* Display Headline */}
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#1a3300] tracking-[0.04em] leading-[1.05]">
-          Split expenses. Settle debts.{' '}
-          <span className="bg-[#ffe95c] px-2.5 py-0.5 rounded-[4px] inline-block shadow-sm">
+        {/* Display Headline with Kinetic Words & Marker Wash (Stagger 3) */}
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#1a3300] tracking-[0.04em] leading-[1.1] animate-text-appear-3 select-none">
+          <span className="headline-word hover:text-[#2d5703] transition-colors mr-2 sm:mr-3">Split expenses.</span>
+          <span className="headline-word hover:text-[#2d5703] transition-colors mr-2 sm:mr-3">Settle debts.</span>
+          <span className="headline-sticker animate-marker-wash">
             Say Briefly.
           </span>
         </h1>
 
-        {/* Hero Subhead Paragraph */}
-        <p className="text-base sm:text-lg text-[#1a3300]/80 font-normal leading-relaxed max-w-[620px] mx-auto">
+        {/* Hero Subhead Paragraph (Stagger 4) */}
+        <p className="text-base sm:text-lg text-[#1a3300]/80 font-normal leading-relaxed max-w-[620px] mx-auto animate-text-appear-4">
           Autonomous background operator that extracts bill line items, calculates weighted shares, and resolves household IOUs through zero-custody UPI deep links.
         </p>
 
-        {/* Backed-by & Platform Credibility Strip */}
-        <div className="flex items-center justify-center gap-6 pt-3 text-xs font-mono text-[#b6b6b6] flex-wrap">
+        {/* Backed-by & Platform Credibility Strip (Stagger 5) */}
+        <div className="flex items-center justify-center gap-4 sm:gap-6 pt-2 text-xs font-mono text-[#b6b6b6] flex-wrap animate-text-appear-5">
           <span className="uppercase text-[11px] font-semibold text-[#1a3300]/60">Powered by:</span>
           <span className="px-2 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] rounded-[4px] text-[#1a3300] font-medium">Gemini Vision AI</span>
           <span className="px-2 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] rounded-[4px] text-[#1a3300] font-medium">Google Cloud Run</span>
@@ -207,7 +209,10 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {/* 3. Demo Persona Quick-Switcher Bar & Group Actions */}
+      {/* 3. Interactive Animated Flow of Money Section */}
+      <MoneyFlowVisualizer householdName={household?.name || 'Villa 101'} />
+
+      {/* 4. Demo Persona Quick-Switcher Bar & Group Actions */}
       <section className="bg-[#fcfaf5] border border-[#1a3300] rounded-[12px] p-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
         <div className="flex items-center gap-2.5">
           <div className="p-2 bg-[#ffe95c] border border-[#1a3300] text-[#1a3300] rounded-[6px]">
@@ -261,20 +266,20 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {/* 4. Roommate Habit Badges & Memory */}
+      {/* 5. Roommate Habit Badges & Memory */}
       {household && <RoommateBadges roommates={household.roommates} />}
 
-      {/* 5. Autonomous Time-Travel Simulator */}
+      {/* 6. Autonomous Time-Travel Simulator */}
       <TimeTravelSlider householdId={selectedHouseholdId} onTimeTravel={() => loadData(selectedHouseholdId)} />
 
-      {/* 6. "Who Has Paid vs Who Is Left" Real-Time Settlement Matrix */}
+      {/* 7. "Who Has Paid vs Who Is Left" Real-Time Settlement Matrix */}
       <WhoPaidTracker
         settlementStatus={settlementStatus}
         onPayShare={handleOpenPay}
         onRefresh={() => loadData(selectedHouseholdId)}
       />
 
-      {/* 7. 3-Column Operational Layout */}
+      {/* 8. 3-Column Operational Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Multimodal Receipt Ingestion */}
         <div className="lg:col-span-4 space-y-6">
@@ -376,7 +381,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* 8. Modals */}
+      {/* 9. Modals */}
       <PaymentModal
         share={selectedShare}
         settlement={selectedSettlement}

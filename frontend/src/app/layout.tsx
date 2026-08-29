@@ -6,6 +6,11 @@ import { AuthProvider } from '../context/AuthContext';
 export const metadata: Metadata = {
   title: 'RoomieOps AI — Autonomous Roommate Rent & Expense Ops Agent',
   description: 'Autonomous roommate expense splitting, multimodal receipt ingestion, UPI deep links, and Min-Cash-Flow debt simplification on Google Cloud.',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
@@ -16,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-[#fcfaf5]">
       <head>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
