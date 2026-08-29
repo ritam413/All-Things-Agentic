@@ -11,7 +11,6 @@ interface Props {
 
 export const TimeTravelSlider: React.FC<Props> = ({ householdId, onTimeTravel }) => {
   const [loading, setLoading] = useState(false);
-  const [days, setDays] = useState(3);
 
   const handleSimulate = async (daysForward: number) => {
     setLoading(true);
@@ -26,19 +25,19 @@ export const TimeTravelSlider: React.FC<Props> = ({ householdId, onTimeTravel })
   };
 
   return (
-    <div className="glass-card p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-amber-500/20 bg-amber-500/5">
+    <div className="bg-[#fcfaf5] p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-[#1a3300] rounded-[12px] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
       <div className="flex items-center gap-3">
-        <div className="p-2 bg-amber-500/10 rounded-xl text-amber-400">
+        <div className="p-2 bg-[#ffe95c] border border-[#1a3300] rounded-[6px] text-[#1a3300]">
           <FastForward className="w-5 h-5" />
         </div>
         <div>
-          <h4 className="text-sm font-heading font-bold text-white flex items-center gap-2">
+          <h4 className="text-sm font-bold text-[#1a3300] flex items-center gap-2">
             <span>Autonomous Time-Travel Simulator</span>
-            <span className="text-[10px] font-mono px-2 py-0.5 bg-amber-500/20 text-amber-300 rounded">
+            <span className="text-[10px] font-mono px-2 py-0.5 bg-[#d5f5c2] text-[#1a3300] border border-[#1a3300] rounded-full">
               Demo Feature
             </span>
           </h4>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-[#1a3300]/70 font-sans">
             Fast-forward time to simulate Google Cloud Scheduler crons and trigger live tone escalations.
           </p>
         </div>
@@ -48,21 +47,21 @@ export const TimeTravelSlider: React.FC<Props> = ({ householdId, onTimeTravel })
         <button
           onClick={() => handleSimulate(1)}
           disabled={loading}
-          className="flex-1 md:flex-none py-1.5 px-3 bg-slate-900 hover:bg-slate-800 text-gray-200 font-mono text-xs rounded-lg border border-slate-700 hover:border-amber-500/40 transition-colors"
+          className="flex-1 md:flex-none py-1.5 px-3 bg-[#fcfaf5] hover:bg-[#e8e4d9] text-[#1a3300] font-mono text-xs rounded-[6px] border border-[#b6b6b6] hover:border-[#1a3300] transition-transform active:scale-[0.97]"
         >
           +1 Day
         </button>
         <button
           onClick={() => handleSimulate(3)}
           disabled={loading}
-          className="flex-1 md:flex-none py-1.5 px-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-mono text-xs rounded-lg border border-amber-500/40 transition-colors font-semibold"
+          className="flex-1 md:flex-none py-1.5 px-3 bg-[#ffe95c] hover:bg-[#fedb34] text-[#1a3300] font-mono text-xs rounded-[6px] border border-[#1a3300] font-semibold transition-transform active:scale-[0.97]"
         >
           ⚡ +3 Days (Nudge)
         </button>
         <button
           onClick={() => handleSimulate(7)}
           disabled={loading}
-          className="flex-1 md:flex-none py-1.5 px-3 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 font-mono text-xs rounded-lg border border-rose-500/40 transition-colors font-semibold"
+          className="flex-1 md:flex-none py-1.5 px-3 bg-[#cb5521] hover:bg-[#b54919] text-[#fcfaf5] font-mono text-xs rounded-[6px] border border-[#1a3300] font-semibold transition-transform active:scale-[0.97]"
         >
           🚨 +7 Days (Overdue)
         </button>

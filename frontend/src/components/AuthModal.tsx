@@ -52,15 +52,15 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md glass-card border border-purple-500/30 p-6 md:p-8 space-y-6 shadow-2xl bg-[#0d1322]/95 rounded-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1a3300]/40 backdrop-blur-sm transition-opacity duration-200">
+      <div className="relative w-full max-w-md bg-[#fcfaf5] border-2 border-[#1a3300] p-6 md:p-8 space-y-6 shadow-[0_20px_40px_-10px_rgba(26,51,0,0.2)] rounded-[16px] animate-pop-in">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="flex items-center justify-between border-b border-[#b6b6b6] pb-4">
           <div>
-            <h3 className="text-xl font-heading font-bold text-white flex items-center gap-2">
+            <h3 className="text-xl font-bold text-[#1a3300] flex items-center gap-2">
               <span>{tab === 'login' ? 'Sign In to RoomieOps' : 'Join RoomieOps AI'}</span>
             </h3>
-            <p className="text-xs font-mono text-gray-400">
+            <p className="text-xs text-[#1a3300]/70 font-sans mt-0.5">
               {tab === 'login'
                 ? 'Authenticate with your roommate account'
                 : 'Create a new roommate profile with instant settlement support'}
@@ -68,24 +68,24 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-gray-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
+            className="p-1.5 text-[#1a3300]/60 hover:text-[#1a3300] rounded-[6px] hover:bg-[#e8e4d9] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Selector */}
-        <div className="grid grid-cols-2 p-1 bg-slate-950/80 rounded-xl border border-slate-800">
+        <div className="grid grid-cols-2 p-1 bg-[#e8e4d9]/50 rounded-[8px] border border-[#b6b6b6]">
           <button
             type="button"
             onClick={() => {
               setTab('login');
               setErrorMsg(null);
             }}
-            className={`py-2 text-xs font-medium rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+            className={`py-2 text-xs font-semibold rounded-[6px] transition-transform active:scale-[0.97] flex items-center justify-center gap-1.5 ${
               tab === 'login'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-semibold shadow-md'
-                : 'text-gray-400 hover:text-gray-200'
+                ? 'bg-[#1a3300] text-[#fcfaf5] shadow-sm'
+                : 'text-[#1a3300] hover:bg-[#fcfaf5]'
             }`}
           >
             <LogIn className="w-3.5 h-3.5" />
@@ -97,10 +97,10 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
               setTab('register');
               setErrorMsg(null);
             }}
-            className={`py-2 text-xs font-medium rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+            className={`py-2 text-xs font-semibold rounded-[6px] transition-transform active:scale-[0.97] flex items-center justify-center gap-1.5 ${
               tab === 'register'
-                ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white font-semibold shadow-md'
-                : 'text-gray-400 hover:text-gray-200'
+                ? 'bg-[#1a3300] text-[#fcfaf5] shadow-sm'
+                : 'text-[#1a3300] hover:bg-[#fcfaf5]'
             }`}
           >
             <UserPlus className="w-3.5 h-3.5" />
@@ -110,8 +110,8 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
 
         {/* Error Alert */}
         {errorMsg && (
-          <div className="p-3 bg-rose-500/10 border border-rose-500/30 text-rose-400 rounded-xl text-xs font-mono flex items-center gap-2">
-            <X className="w-4 h-4 text-rose-400 shrink-0" />
+          <div className="p-3 bg-[#cb5521] border border-[#1a3300] text-[#fcfaf5] rounded-[6px] text-xs font-mono flex items-center gap-2">
+            <X className="w-4 h-4 text-[#fcfaf5] shrink-0" />
             <span>{errorMsg}</span>
           </div>
         )}
@@ -120,8 +120,8 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
         <form onSubmit={handleSubmit} className="space-y-4 text-xs font-sans">
           {tab === 'register' && (
             <div className="space-y-1.5">
-              <label className="text-gray-300 font-medium flex items-center gap-1.5">
-                <UserIcon className="w-3.5 h-3.5 text-cyan-400" />
+              <label className="text-[#1a3300] font-semibold flex items-center gap-1.5">
+                <UserIcon className="w-3.5 h-3.5 text-[#1a3300]" />
                 <span>Full Name</span>
               </label>
               <input
@@ -129,7 +129,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/50"
+                className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3.5 py-2.5 text-[#1a3300] placeholder-[#1a3300]/40 focus:outline-none transition-colors"
                 placeholder="e.g. Maya Patel"
               />
             </div>
@@ -137,8 +137,8 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
 
           {/* Email */}
           <div className="space-y-1.5">
-            <label className="text-gray-300 font-medium flex items-center gap-1.5">
-              <Mail className="w-3.5 h-3.5 text-purple-400" />
+            <label className="text-[#1a3300] font-semibold flex items-center gap-1.5">
+              <Mail className="w-3.5 h-3.5 text-[#1a3300]" />
               <span>Email Address</span>
             </label>
             <input
@@ -146,15 +146,15 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/50"
+              className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3.5 py-2.5 text-[#1a3300] placeholder-[#1a3300]/40 focus:outline-none transition-colors"
               placeholder="e.g. maya@example.com"
             />
           </div>
 
           {/* Password */}
           <div className="space-y-1.5">
-            <label className="text-gray-300 font-medium flex items-center gap-1.5">
-              <Lock className="w-3.5 h-3.5 text-cyan-400" />
+            <label className="text-[#1a3300] font-semibold flex items-center gap-1.5">
+              <Lock className="w-3.5 h-3.5 text-[#1a3300]" />
               <span>Password</span>
             </label>
             <input
@@ -162,7 +162,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/50"
+              className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3.5 py-2.5 text-[#1a3300] placeholder-[#1a3300]/40 focus:outline-none transition-colors"
               placeholder="••••••••"
             />
           </div>
@@ -171,30 +171,30 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
             <>
               {/* UPI VPA */}
               <div className="space-y-1.5">
-                <label className="text-gray-300 font-medium flex items-center gap-1.5">
-                  <QrCode className="w-3.5 h-3.5 text-brand-cyan" />
+                <label className="text-[#1a3300] font-semibold flex items-center gap-1.5">
+                  <QrCode className="w-3.5 h-3.5 text-[#1a3300]" />
                   <span>UPI VPA Handle</span>
                 </label>
                 <input
                   type="text"
                   value={upiVpa}
                   onChange={(e) => setUpiVpa(e.target.value)}
-                  className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-white font-mono placeholder-gray-500 focus:outline-none focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/50"
+                  className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3.5 py-2.5 text-[#1a3300] font-mono placeholder-[#1a3300]/40 focus:outline-none transition-colors"
                   placeholder="e.g. maya@okaxis"
                 />
               </div>
 
               {/* Phone */}
               <div className="space-y-1.5">
-                <label className="text-gray-300 font-medium flex items-center gap-1.5">
-                  <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
+                <label className="text-[#1a3300] font-semibold flex items-center gap-1.5">
+                  <Smartphone className="w-3.5 h-3.5 text-[#1a3300]" />
                   <span>Phone Number</span>
                 </label>
                 <input
                   type="text"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-white font-mono placeholder-gray-500 focus:outline-none focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/50"
+                  className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3.5 py-2.5 text-[#1a3300] font-mono placeholder-[#1a3300]/40 focus:outline-none transition-colors"
                   placeholder="+91 98765 00000"
                 />
               </div>
@@ -206,7 +206,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-2.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-semibold rounded-xl shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 text-xs"
+              className="w-full py-2.5 bg-[#1a3300] hover:bg-[#1a3300]/90 text-[#fcfaf5] font-semibold rounded-[6px] shadow-sm transition-transform active:scale-[0.97] flex items-center justify-center gap-2 disabled:opacity-50 text-xs"
             >
               {isLoading ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

@@ -27,6 +27,7 @@ import { AuthModal } from '../components/AuthModal';
 import { GroupManagementModal } from '../components/GroupManagementModal';
 import { WhoPaidTracker } from '../components/WhoPaidTracker';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'sonner';
 import {
   Home,
   Sparkles,
@@ -41,6 +42,9 @@ import {
   Users,
   ChevronDown,
   UserPlus,
+  ArrowRight,
+  Receipt,
+  FileSpreadsheet,
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -101,105 +105,117 @@ export default function DashboardPage() {
   };
 
   return (
-    <main className="p-4 sm:p-6 lg:p-10 max-w-7xl mx-auto space-y-6 font-sans">
-      {/* Top Header */}
-      <header className="glass-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-cyan-500/20">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-3 py-1 text-xs font-mono font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded-full">
-              Google Agentic Hackathon 2026
-            </span>
-            <span className="px-3 py-1 text-xs font-mono font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/30 rounded-full">
-              The Taskmaster Track
-            </span>
-            <span className="px-3 py-1 text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span>Autonomous Agent Active</span>
-            </span>
+    <main className="min-h-screen bg-[#fcfaf5] text-[#1a3300] p-4 sm:p-6 lg:p-10 max-w-[1200px] mx-auto space-y-12 font-sans">
+      {/* 1. Floating Pill Top Navigation Bar */}
+      <header className="bg-[#fcfaf5] border border-[#b6b6b6] rounded-[16px] p-3 sm:px-6 sm:py-3.5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+        {/* Logo Lockup */}
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-[#ffe95c] rounded-[6px] border border-[#1a3300] flex items-center justify-center font-bold text-[#1a3300] text-base shadow-sm">
+            lo
           </div>
-          <h1 className="text-3xl sm:text-4xl font-heading font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">
-            RoomieOps AI
-          </h1>
-          <p className="text-xs sm:text-sm text-gray-400">
-            Autonomous Roommate Rent & Expense Ops Agent • Multi-Group Ledger & Instant Settlements
-          </p>
+          <div>
+            <div className="text-xl font-bold tracking-tight text-[#1a3300] flex items-center gap-2">
+              <span>SayBriefly</span>
+              <span className="text-[10px] font-mono font-medium px-2 py-0.5 bg-[#d5f5c2] border border-[#1a3300] rounded-full">
+                RoomieOps AI
+              </span>
+            </div>
+            <p className="text-[11px] text-[#1a3300]/70 font-mono">
+              The Taskmaster • Autonomous Rent & Expense Agent
+            </p>
+          </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto">
-          {/* Active Household Selector Badge */}
+        {/* Right Navigation & Controls */}
+        <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-start md:justify-end">
+          {/* Active Household Switcher Pill */}
           <button
             onClick={() => setIsGroupModalOpen(true)}
-            className="flex items-center gap-2.5 p-2 px-3 bg-slate-900/90 border border-slate-700/80 hover:border-cyan-500/50 rounded-2xl transition-all shadow-lg text-left"
+            className="flex items-center gap-2 px-3 py-1.5 bg-[#fcfaf5] border border-[#b6b6b6] hover:border-[#1a3300] rounded-[6px] transition-transform active:scale-[0.97] text-left"
           >
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-xs shadow-md">
-              <Building className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="text-xs font-semibold text-white flex items-center gap-1.5">
-                <span>{household?.name || 'Loading Household...'}</span>
-                <ChevronDown className="w-3 h-3 text-gray-400" />
-              </div>
-              <div className="text-[10px] font-mono text-cyan-400">
-                {household?.roommates?.length || 0} Roommates • {household?.default_split_rule}
-              </div>
-            </div>
+            <Building className="w-3.5 h-3.5 text-[#1a3300]" />
+            <span className="text-xs font-semibold text-[#1a3300]">
+              {household?.name || 'Loading Flat...'}
+            </span>
+            <ChevronDown className="w-3 h-3 text-[#1a3300]/60" />
           </button>
 
-          {/* Active User Persona Chip */}
+          {/* User Persona Chip */}
           {currentUser && (
-            <div className="flex items-center gap-2.5 p-1.5 pr-3 bg-slate-900/90 border border-slate-700/80 hover:border-cyan-500/40 rounded-2xl transition-all shadow-lg">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-md">
-                {currentUser.name.charAt(0)}
-              </div>
-              <div className="text-left leading-tight">
-                <div className="text-xs font-semibold text-white flex items-center gap-1.5">
-                  <span>{currentUser.name}</span>
-                </div>
-                <div className="text-[10px] font-mono text-cyan-400 truncate max-w-[130px]">
-                  {currentUser.upi_vpa || 'No UPI handle'}
-                </div>
-              </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#d5f5c2] border border-[#1a3300] rounded-[6px]">
+              <span className="text-xs font-bold text-[#1a3300]">
+                {currentUser.name}
+              </span>
               <button
                 onClick={() => setIsProfileModalOpen(true)}
                 title="Edit Profile & UPI VPA"
-                className="p-1.5 ml-1 text-gray-400 hover:text-cyan-300 hover:bg-slate-800 rounded-lg transition-colors"
+                className="p-0.5 text-[#1a3300] hover:bg-[#1a3300]/10 rounded-[4px]"
               >
                 <Settings className="w-3.5 h-3.5" />
               </button>
             </div>
           )}
 
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setIsAuthModalOpen(true)}
-              className="py-2 px-3 bg-slate-900/90 hover:bg-slate-800 text-gray-300 font-mono text-xs rounded-xl border border-slate-700 hover:border-purple-500/40 transition-all flex items-center gap-1.5"
-            >
-              <LogIn className="w-3 h-3 text-purple-400" />
-              <span>Login / Register</span>
-            </button>
+          <button
+            onClick={() => setIsAuthModalOpen(true)}
+            className="px-3 py-1.5 bg-[#fcfaf5] border border-[#1a3300] text-[#1a3300] font-medium text-xs rounded-[6px] transition-transform active:scale-[0.97] flex items-center gap-1.5"
+          >
+            <LogIn className="w-3.5 h-3.5" />
+            <span>Login / Register</span>
+          </button>
 
-            <a
-              href="http://localhost:8000/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-gray-300 font-mono text-xs rounded-xl border border-slate-700 hover:border-cyan-500/40 transition-all flex items-center gap-1.5"
-            >
-              <span>FastAPI Docs</span>
-              <ExternalLink className="w-3 h-3 text-cyan-400" />
-            </a>
-          </div>
+          <a
+            href="http://localhost:8000/docs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3 py-1.5 bg-[#1a3300] text-[#fcfaf5] font-medium text-xs rounded-[6px] transition-transform active:scale-[0.97] flex items-center gap-1.5 shadow-sm"
+          >
+            <span>FastAPI Docs</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
         </div>
       </header>
 
-      {/* Demo Persona Quick-Switcher Bar & Group Actions */}
-      <div className="glass-card p-3.5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 border border-cyan-500/20 bg-slate-950/60 rounded-2xl">
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-cyan-500/10 text-cyan-400 rounded-lg">
+      {/* 2. Hero Section: Display Headline with Yellow Marker Wash */}
+      <section className="text-center max-w-3xl mx-auto space-y-5 pt-2 sm:pt-4">
+        {/* Eyebrow Tagline Badge */}
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#ffe95c] border border-[#1a3300] rounded-[6px] text-xs font-medium text-[#1a3300]">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Google Agentic Hackathon 2026 • The Taskmaster Track</span>
+        </div>
+
+        {/* Display Headline */}
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#1a3300] tracking-[0.04em] leading-[1.05]">
+          Split expenses. Settle debts.{' '}
+          <span className="bg-[#ffe95c] px-2.5 py-0.5 rounded-[4px] inline-block shadow-sm">
+            Say Briefly.
+          </span>
+        </h1>
+
+        {/* Hero Subhead Paragraph */}
+        <p className="text-base sm:text-lg text-[#1a3300]/80 font-normal leading-relaxed max-w-[620px] mx-auto">
+          Autonomous background operator that extracts bill line items, calculates weighted shares, and resolves household IOUs through zero-custody UPI deep links.
+        </p>
+
+        {/* Backed-by & Platform Credibility Strip */}
+        <div className="flex items-center justify-center gap-6 pt-3 text-xs font-mono text-[#b6b6b6] flex-wrap">
+          <span className="uppercase text-[11px] font-semibold text-[#1a3300]/60">Powered by:</span>
+          <span className="px-2 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] rounded-[4px] text-[#1a3300] font-medium">Gemini Vision AI</span>
+          <span className="px-2 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] rounded-[4px] text-[#1a3300] font-medium">Google Cloud Run</span>
+          <span className="px-2 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] rounded-[4px] text-[#1a3300] font-medium">Min-Cash-Flow Graph</span>
+          <span className="px-2 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] rounded-[4px] text-[#1a3300] font-medium">UPI Direct Links</span>
+        </div>
+      </section>
+
+      {/* 3. Demo Persona Quick-Switcher Bar & Group Actions */}
+      <section className="bg-[#fcfaf5] border border-[#1a3300] rounded-[12px] p-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+        <div className="flex items-center gap-2.5">
+          <div className="p-2 bg-[#ffe95c] border border-[#1a3300] text-[#1a3300] rounded-[6px]">
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <span className="text-xs font-semibold text-white">1-Click Demo Persona Switcher</span>
-            <p className="text-[11px] font-mono text-gray-400">Zero-friction roommate persona simulation</p>
+            <span className="text-xs font-bold text-[#1a3300]">1-Click Demo Persona Switcher</span>
+            <p className="text-[11px] font-mono text-[#1a3300]/70">Zero-friction roommate simulation & profile swaps</p>
           </div>
         </div>
 
@@ -210,17 +226,22 @@ export default function DashboardPage() {
               return (
                 <button
                   key={p.id}
-                  onClick={() => switchPersona(p.id)}
+                  onClick={async () => {
+                    await switchPersona(p.id);
+                    toast.success(`Switched persona to ${p.name.split(' ')[0]}`, {
+                      description: `Active UPI Handle: ${p.upi_vpa}`,
+                    });
+                  }}
                   disabled={authLoading}
-                  className={`px-3 py-1.5 rounded-xl font-mono text-xs transition-all flex items-center gap-2 ${
+                  className={`px-3 py-1.5 rounded-[6px] font-mono text-xs transition-transform active:scale-[0.97] flex items-center gap-2 ${
                     isActive
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold shadow-lg shadow-cyan-500/20 scale-105'
-                      : 'bg-slate-900 hover:bg-slate-800 text-gray-300 border border-slate-800 hover:border-cyan-500/30'
+                      ? 'bg-[#1a3300] text-[#fcfaf5] font-bold shadow-sm'
+                      : 'bg-[#fcfaf5] text-[#1a3300] border border-[#b6b6b6] hover:border-[#1a3300]'
                   }`}
                 >
                   <div
                     className={`w-2 h-2 rounded-full ${
-                      isActive ? 'bg-black animate-pulse' : 'bg-gray-500'
+                      isActive ? 'bg-[#ffe95c]' : 'bg-[#b6b6b6]'
                     }`}
                   />
                   <span>{p.name.split(' ')[0]}</span>
@@ -232,28 +253,28 @@ export default function DashboardPage() {
 
           <button
             onClick={() => setIsGroupModalOpen(true)}
-            className="px-3 py-1.5 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 font-mono text-xs rounded-xl border border-cyan-500/30 transition-all flex items-center gap-1.5"
+            className="px-3 py-1.5 bg-[#a8e5e5] hover:bg-[#96dada] text-[#1a3300] font-mono text-xs font-semibold rounded-[6px] border border-[#1a3300] transition-transform active:scale-[0.97] flex items-center gap-1.5 shadow-sm"
           >
             <UserPlus className="w-3.5 h-3.5" />
             <span>Manage Group / People</span>
           </button>
         </div>
-      </div>
+      </section>
 
-      {/* Household Badges */}
+      {/* 4. Roommate Habit Badges & Memory */}
       {household && <RoommateBadges roommates={household.roommates} />}
 
-      {/* Autonomous Time-Travel Simulator */}
+      {/* 5. Autonomous Time-Travel Simulator */}
       <TimeTravelSlider householdId={selectedHouseholdId} onTimeTravel={() => loadData(selectedHouseholdId)} />
 
-      {/* "Who Has Paid vs Who Is Left" Real-Time Settlement Matrix Widget */}
+      {/* 6. "Who Has Paid vs Who Is Left" Real-Time Settlement Matrix */}
       <WhoPaidTracker
         settlementStatus={settlementStatus}
         onPayShare={handleOpenPay}
         onRefresh={() => loadData(selectedHouseholdId)}
       />
 
-      {/* 3-Column Operational Layout */}
+      {/* 7. 3-Column Operational Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Multimodal Receipt Ingestion */}
         <div className="lg:col-span-4 space-y-6">
@@ -265,45 +286,47 @@ export default function DashboardPage() {
 
         {/* Middle Column: Active Expense Ledger */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="glass-card p-6 space-y-4">
+          <div className="bg-[#fcfaf5] p-6 space-y-4 rounded-[12px] border border-[#1a3300] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-heading font-bold text-white flex items-center gap-2">
-                <CreditCard className="w-5 h-5 text-brand-cyan" />
+              <h3 className="text-lg font-bold text-[#1a3300] flex items-center gap-2">
+                <CreditCard className="w-5 h-5 text-[#1a3300]" />
                 <span>Active Expense Ledger</span>
               </h3>
-              <span className="text-xs font-mono text-gray-500">{expenses.length} Bills</span>
+              <span className="text-xs font-mono px-2 py-0.5 bg-[#fcfaf5] text-[#1a3300] border border-[#1a3300] rounded-full">
+                {expenses.length} Bills
+              </span>
             </div>
 
             <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
               {expenses.length === 0 ? (
-                <div className="p-6 bg-slate-950/40 rounded-xl text-center text-xs text-gray-500 font-mono">
+                <div className="p-6 bg-[#fcfaf5] rounded-[8px] border border-dashed border-[#b6b6b6] text-center text-xs text-[#1a3300]/60 font-mono">
                   No active bills for {household?.name || 'this group'}. Ingest a receipt or click a preset on the left!
                 </div>
               ) : (
                 expenses.map((exp) => (
                   <div
                     key={exp.id}
-                    className="p-4 bg-slate-950/80 rounded-xl border border-slate-800 space-y-3 hover:border-slate-700 transition-colors"
+                    className="p-4 bg-[#fcfaf5] rounded-[8px] border border-[#b6b6b6] hover:border-[#1a3300] transition-colors space-y-3 shadow-sm"
                   >
                     <div className="flex items-start justify-between">
                       <div>
-                        <div className="text-sm font-semibold text-white">{exp.vendor}</div>
-                        <div className="text-[11px] font-mono text-gray-400">
-                          Paid by: <span className="text-cyan-300">{exp.payer_name}</span> • Due: {exp.due_date}
+                        <div className="text-sm font-bold text-[#1a3300]">{exp.vendor}</div>
+                        <div className="text-[11px] font-mono text-[#1a3300]/70">
+                          Paid by: <span className="font-semibold text-[#1a3300]">{exp.payer_name}</span> • Due: {exp.due_date}
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="font-mono text-sm font-bold text-emerald-400">
+                        <div className="font-mono text-sm font-bold text-[#1a3300]">
                           ₹{exp.total_amount.toFixed(2)}
                         </div>
-                        <span className="text-[10px] font-mono px-2 py-0.5 bg-slate-900 text-gray-400 rounded">
+                        <span className="text-[10px] font-mono px-2 py-0.5 bg-[#ffe95c] text-[#1a3300] border border-[#1a3300] rounded">
                           {exp.split_rule}
                         </span>
                       </div>
                     </div>
 
                     {/* Split Shares Breakdown */}
-                    <div className="space-y-1.5 pt-2 border-t border-slate-900">
+                    <div className="space-y-1.5 pt-2 border-t border-[#b6b6b6]/50">
                       {exp.shares.map((share) => {
                         const isPaid = share.status === 'PAID';
                         return (
@@ -311,19 +334,19 @@ export default function DashboardPage() {
                             key={share.id}
                             className="flex items-center justify-between text-xs font-mono"
                           >
-                            <span className="text-gray-300">{share.roommate_name}</span>
+                            <span className="text-[#1a3300]/80">{share.roommate_name}</span>
                             <div className="flex items-center gap-2">
-                              <span className={isPaid ? 'text-emerald-400 font-bold' : 'text-gray-400'}>
+                              <span className={isPaid ? 'text-[#1a3300] font-bold' : 'text-[#cb5521] font-semibold'}>
                                 ₹{share.amount_owed.toFixed(2)}
                               </span>
                               {isPaid ? (
-                                <span className="text-[10px] px-1.5 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">
+                                <span className="text-[9px] px-1.5 py-0.5 bg-[#d5f5c2] text-[#1a3300] rounded border border-[#1a3300]">
                                   PAID
                                 </span>
                               ) : (
                                 <button
                                   onClick={() => handleOpenPay(share)}
-                                  className="text-[10px] px-2 py-0.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 rounded border border-cyan-500/40"
+                                  className="text-[10px] px-2 py-0.5 bg-[#1a3300] hover:bg-[#1a3300]/90 text-[#fcfaf5] rounded-[6px] font-semibold transition-transform active:scale-[0.97]"
                                 >
                                   Pay UPI ↗
                                 </button>
@@ -353,7 +376,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Payment Intent Modal */}
+      {/* 8. Modals */}
       <PaymentModal
         share={selectedShare}
         settlement={selectedSettlement}
@@ -366,20 +389,17 @@ export default function DashboardPage() {
         onPaymentSuccess={() => loadData(selectedHouseholdId)}
       />
 
-      {/* User Profile & Settings Modal */}
       <UserProfileModal
         isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
       />
 
-      {/* Login & Register Modal */}
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
         onSuccess={() => loadData(selectedHouseholdId)}
       />
 
-      {/* Group & Member Management Modal */}
       <GroupManagementModal
         isOpen={isGroupModalOpen}
         onClose={() => setIsGroupModalOpen(false)}

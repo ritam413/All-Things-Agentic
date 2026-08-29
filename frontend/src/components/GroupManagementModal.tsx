@@ -192,42 +192,42 @@ export function GroupManagementModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-2xl glass-card border border-cyan-500/30 p-6 md:p-8 space-y-6 shadow-2xl bg-[#0d1322]/95 rounded-2xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1a3300]/40 backdrop-blur-sm transition-opacity duration-200">
+      <div className="relative w-full max-w-2xl bg-[#fcfaf5] border-2 border-[#1a3300] p-6 md:p-8 space-y-6 shadow-[0_20px_40px_-10px_rgba(26,51,0,0.2)] rounded-[16px] max-h-[90vh] overflow-y-auto animate-pop-in">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="flex items-center justify-between border-b border-[#b6b6b6] pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
+            <div className="w-10 h-10 rounded-[6px] bg-[#ffe95c] border border-[#1a3300] flex items-center justify-center text-[#1a3300]">
               <Building className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-xl font-heading font-bold text-white flex items-center gap-2">
+              <h3 className="text-xl font-bold text-[#1a3300] flex items-center gap-2">
                 <span>Household & Group Ops</span>
-                <span className="px-2 py-0.5 text-[10px] font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded-full">
+                <span className="px-2 py-0.5 text-[10px] font-mono bg-[#d5f5c2] text-[#1a3300] border border-[#1a3300] rounded-full">
                   Multi-Group Engine
                 </span>
               </h3>
-              <p className="text-xs font-mono text-gray-400">
-                Active: <span className="text-cyan-300 font-semibold">{currentHousehold?.name || currentHouseholdId}</span>
+              <p className="text-xs text-[#1a3300]/70 font-sans">
+                Active: <span className="text-[#1a3300] font-bold">{currentHousehold?.name || currentHouseholdId}</span>
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-gray-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
+            className="p-1.5 text-[#1a3300]/60 hover:text-[#1a3300] rounded-[6px] hover:bg-[#e8e4d9] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-1.5 p-1 bg-slate-950/80 rounded-xl border border-slate-800/80">
+        <div className="flex items-center gap-1.5 p-1 bg-[#e8e4d9]/50 rounded-[8px] border border-[#b6b6b6]">
           <button
             onClick={() => setActiveTab('switch')}
-            className={`flex-1 py-2 px-3 text-xs font-mono rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2 px-3 text-xs font-semibold rounded-[6px] transition-transform active:scale-[0.97] flex items-center justify-center gap-1.5 ${
               activeTab === 'switch'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold shadow-md'
-                : 'text-gray-400 hover:text-gray-200 hover:bg-slate-900'
+                ? 'bg-[#1a3300] text-[#fcfaf5] shadow-sm'
+                : 'text-[#1a3300] hover:bg-[#fcfaf5]'
             }`}
           >
             <Home className="w-3.5 h-3.5" />
@@ -236,10 +236,10 @@ export function GroupManagementModal({
 
           <button
             onClick={() => setActiveTab('create_group')}
-            className={`flex-1 py-2 px-3 text-xs font-mono rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2 px-3 text-xs font-semibold rounded-[6px] transition-transform active:scale-[0.97] flex items-center justify-center gap-1.5 ${
               activeTab === 'create_group'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold shadow-md'
-                : 'text-gray-400 hover:text-gray-200 hover:bg-slate-900'
+                ? 'bg-[#1a3300] text-[#fcfaf5] shadow-sm'
+                : 'text-[#1a3300] hover:bg-[#fcfaf5]'
             }`}
           >
             <PlusCircle className="w-3.5 h-3.5" />
@@ -248,10 +248,10 @@ export function GroupManagementModal({
 
           <button
             onClick={() => setActiveTab('add_member')}
-            className={`flex-1 py-2 px-3 text-xs font-mono rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2 px-3 text-xs font-semibold rounded-[6px] transition-transform active:scale-[0.97] flex items-center justify-center gap-1.5 ${
               activeTab === 'add_member'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold shadow-md'
-                : 'text-gray-400 hover:text-gray-200 hover:bg-slate-900'
+                ? 'bg-[#1a3300] text-[#fcfaf5] shadow-sm'
+                : 'text-[#1a3300] hover:bg-[#fcfaf5]'
             }`}
           >
             <UserPlus className="w-3.5 h-3.5" />
@@ -260,10 +260,10 @@ export function GroupManagementModal({
 
           <button
             onClick={() => setActiveTab('members_list')}
-            className={`flex-1 py-2 px-3 text-xs font-mono rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2 px-3 text-xs font-semibold rounded-[6px] transition-transform active:scale-[0.97] flex items-center justify-center gap-1.5 ${
               activeTab === 'members_list'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold shadow-md'
-                : 'text-gray-400 hover:text-gray-200 hover:bg-slate-900'
+                ? 'bg-[#1a3300] text-[#fcfaf5] shadow-sm'
+                : 'text-[#1a3300] hover:bg-[#fcfaf5]'
             }`}
           >
             <Users className="w-3.5 h-3.5" />
@@ -273,14 +273,14 @@ export function GroupManagementModal({
 
         {/* Feedback Alerts */}
         {successMsg && (
-          <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-xl text-xs font-mono flex items-center gap-2 animate-in slide-in-from-top-1">
-            <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+          <div className="p-3 bg-[#d5f5c2] border border-[#1a3300] text-[#1a3300] rounded-[6px] text-xs font-mono flex items-center gap-2">
+            <Check className="w-4 h-4 text-[#1a3300] flex-shrink-0" />
             <span>{successMsg}</span>
           </div>
         )}
         {errorMsg && (
-          <div className="p-3 bg-rose-500/10 border border-rose-500/30 text-rose-400 rounded-xl text-xs font-mono flex items-center gap-2">
-            <X className="w-4 h-4 text-rose-400 flex-shrink-0" />
+          <div className="p-3 bg-[#cb5521] border border-[#1a3300] text-[#fcfaf5] rounded-[6px] text-xs font-mono flex items-center gap-2">
+            <X className="w-4 h-4 text-[#fcfaf5] flex-shrink-0" />
             <span>{errorMsg}</span>
           </div>
         )}
@@ -288,7 +288,7 @@ export function GroupManagementModal({
         {/* TAB 1: SWITCH GROUP */}
         {activeTab === 'switch' && (
           <div className="space-y-4">
-            <div className="text-xs text-gray-400 font-sans">
+            <div className="text-xs text-[#1a3300]/70 font-sans">
               Select an active household ledger to manage expenses, Min-Cash-Flow debts, and escalation schedules.
             </div>
 
@@ -302,35 +302,35 @@ export function GroupManagementModal({
                       onSelectHousehold(hh.id);
                       onClose();
                     }}
-                    className={`p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between gap-3 ${
+                    className={`p-4 rounded-[8px] border cursor-pointer transition-transform active:scale-[0.98] flex flex-col justify-between gap-3 ${
                       isSelected
-                        ? 'bg-cyan-950/40 border-cyan-500/80 shadow-lg shadow-cyan-500/10 scale-[1.01]'
-                        : 'bg-slate-950/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/60'
+                        ? 'bg-[#d5f5c2] border-2 border-[#1a3300] shadow-sm'
+                        : 'bg-[#fcfaf5] border-[#b6b6b6] hover:border-[#1a3300]'
                     }`}
                   >
                     <div className="flex items-start justify-between">
                       <div>
-                        <div className="text-sm font-semibold text-white flex items-center gap-2">
+                        <div className="text-sm font-bold text-[#1a3300] flex items-center gap-2">
                           <span>{hh.name}</span>
                           {isSelected && (
-                            <span className="px-2 py-0.5 text-[9px] font-mono bg-cyan-500 text-black font-bold rounded-full">
+                            <span className="px-2 py-0.5 text-[9px] font-mono bg-[#1a3300] text-[#fcfaf5] font-bold rounded-full">
                               ACTIVE
                             </span>
                           )}
                         </div>
-                        <div className="text-[11px] font-mono text-gray-400 mt-0.5">ID: {hh.id}</div>
+                        <div className="text-[11px] font-mono text-[#1a3300]/60 mt-0.5">ID: {hh.id}</div>
                       </div>
-                      <span className="text-[10px] font-mono px-2 py-0.5 bg-slate-900 text-purple-300 border border-purple-500/30 rounded">
+                      <span className="text-[10px] font-mono px-2 py-0.5 bg-[#fcfaf5] text-[#1a3300] border border-[#1a3300] rounded">
                         {hh.default_split_rule}
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between text-xs font-mono text-gray-400 pt-2 border-t border-slate-900">
+                    <div className="flex items-center justify-between text-xs font-mono text-[#1a3300]/70 pt-2 border-t border-[#1a3300]/10">
                       <span className="flex items-center gap-1">
-                        <Users className="w-3.5 h-3.5 text-cyan-400" />
+                        <Users className="w-3.5 h-3.5 text-[#1a3300]" />
                         <span>{hh.roommates.length} Roommates</span>
                       </span>
-                      <span className="text-gray-500">{hh.default_currency}</span>
+                      <span className="font-semibold">{hh.default_currency}</span>
                     </div>
                   </div>
                 );
@@ -343,34 +343,34 @@ export function GroupManagementModal({
         {activeTab === 'create_group' && (
           <form onSubmit={handleCreateGroup} className="space-y-4 text-xs font-sans">
             <div className="space-y-1.5">
-              <label className="text-gray-300 font-medium">Household / Flat Name</label>
+              <label className="text-[#1a3300] font-semibold">Household / Flat Name</label>
               <input
                 type="text"
                 required
                 value={groupName}
                 onChange={(e) => setGroupName(e.target.value)}
                 placeholder="e.g. Villa 101 - Green Meadows"
-                className="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-all"
+                className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3.5 py-2.5 text-[#1a3300] placeholder-[#1a3300]/40 focus:outline-none transition-colors"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="text-gray-300 font-medium">Default Currency</label>
+                <label className="text-[#1a3300] font-semibold">Default Currency</label>
                 <input
                   type="text"
                   value={groupCurrency}
                   onChange={(e) => setGroupCurrency(e.target.value)}
-                  className="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-mono placeholder-gray-500 focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3.5 py-2.5 text-[#1a3300] font-mono focus:outline-none transition-colors"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-gray-300 font-medium">Default Split Rule</label>
+                <label className="text-[#1a3300] font-semibold">Default Split Rule</label>
                 <select
                   value={groupSplitRule}
                   onChange={(e) => setGroupSplitRule(e.target.value as SplitRuleType)}
-                  className="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3 py-2.5 text-[#1a3300] font-mono focus:outline-none transition-colors"
                 >
                   <option value="EQUAL">EQUAL (50/50)</option>
                   <option value="ROOM_AREA">ROOM_AREA (Sq Ft Weighted)</option>
@@ -380,15 +380,15 @@ export function GroupManagementModal({
               </div>
             </div>
 
-            <div className="p-3 bg-slate-950/40 rounded-xl border border-slate-800/80 text-[11px] text-gray-400 font-mono">
-              💡 Creating a group automatically seeds an initial habit memory bank and links your current profile.
+            <div className="p-3 bg-[#ffe95c]/30 rounded-[6px] border border-[#1a3300] text-[11px] text-[#1a3300] font-mono">
+              💡 Creating a group automatically seeds an initial habit memory bank and links your profile.
             </div>
 
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 type="submit"
                 disabled={isLoading || !groupName.trim()}
-                className="px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-semibold rounded-xl shadow-lg shadow-cyan-500/20 transition-all flex items-center gap-2 disabled:opacity-50 text-xs"
+                className="px-5 py-2 bg-[#1a3300] hover:bg-[#1a3300]/90 text-[#fcfaf5] font-semibold rounded-[6px] shadow-sm transition-transform active:scale-[0.97] flex items-center gap-2 disabled:opacity-50 text-xs"
               >
                 <PlusCircle className="w-3.5 h-3.5" />
                 <span>{isLoading ? 'Creating Group...' : 'Create Household'}</span>
@@ -400,43 +400,43 @@ export function GroupManagementModal({
         {/* TAB 3: ADD ROOMMATE */}
         {activeTab === 'add_member' && (
           <form onSubmit={handleAddMember} className="space-y-4 text-xs font-sans">
-            <div className="p-2.5 bg-cyan-500/10 border border-cyan-500/20 rounded-xl text-cyan-300 font-mono text-[11px]">
+            <div className="p-2.5 bg-[#d5f5c2] border border-[#1a3300] rounded-[6px] text-[#1a3300] font-mono text-[11px]">
               Adding roommate to: <span className="font-bold">{currentHousehold?.name}</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="text-gray-300 font-medium">Roommate Full Name</label>
+                <label className="text-[#1a3300] font-semibold">Roommate Full Name</label>
                 <input
                   type="text"
                   required
                   value={memberName}
                   onChange={(e) => setMemberName(e.target.value)}
                   placeholder="e.g. Karan Malhotra"
-                  className="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3.5 py-2.5 text-[#1a3300] placeholder-[#1a3300]/40 focus:outline-none transition-colors"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-gray-300 font-medium">Email Address</label>
+                <label className="text-[#1a3300] font-semibold">Email Address</label>
                 <input
                   type="email"
                   required
                   value={memberEmail}
                   onChange={(e) => setMemberEmail(e.target.value)}
                   placeholder="karan@example.com"
-                  className="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3.5 py-2.5 text-[#1a3300] placeholder-[#1a3300]/40 focus:outline-none transition-colors"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-gray-300 font-medium flex items-center justify-between">
+              <label className="text-[#1a3300] font-semibold flex items-center justify-between">
                 <span className="flex items-center gap-1.5">
-                  <QrCode className="w-3.5 h-3.5 text-cyan-400" />
+                  <QrCode className="w-3.5 h-3.5 text-[#1a3300]" />
                   <span>UPI Payee VPA Handle</span>
                 </span>
-                <span className="text-[10px] font-mono text-cyan-400">Zero-Custody Settlements</span>
+                <span className="text-[10px] font-mono text-[#1a3300]/70">Zero-Custody Settlements</span>
               </label>
               <input
                 type="text"
@@ -444,43 +444,43 @@ export function GroupManagementModal({
                 value={memberUpi}
                 onChange={(e) => setMemberUpi(e.target.value)}
                 placeholder="karan@okaxis"
-                className="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-mono placeholder-gray-500 focus:outline-none focus:border-cyan-500"
+                className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3.5 py-2.5 text-[#1a3300] font-mono placeholder-[#1a3300]/40 focus:outline-none transition-colors"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div className="space-y-1.5">
-                <label className="text-gray-300 font-medium">Phone / WhatsApp</label>
+                <label className="text-[#1a3300] font-semibold">Phone / WhatsApp</label>
                 <input
                   type="text"
                   value={memberPhone}
                   onChange={(e) => setMemberPhone(e.target.value)}
                   placeholder="+91 98765 43210"
-                  className="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3 py-2 text-[#1a3300] font-mono focus:outline-none transition-colors"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-gray-300 font-medium flex items-center gap-1">
-                  <Maximize2 className="w-3 h-3 text-purple-400" />
+                <label className="text-[#1a3300] font-semibold flex items-center gap-1">
+                  <Maximize2 className="w-3 h-3 text-[#1a3300]" />
                   <span>Room Area (Sq Ft)</span>
                 </label>
                 <input
                   type="number"
                   value={memberSqFt}
                   onChange={(e) => setMemberSqFt(Number(e.target.value))}
-                  className="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3 py-2 text-[#1a3300] font-mono focus:outline-none transition-colors"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-gray-300 font-medium">Custom Split %</label>
+                <label className="text-[#1a3300] font-semibold">Custom Split %</label>
                 <input
                   type="number"
                   placeholder="e.g. 25"
                   value={memberCustomPct ?? ''}
                   onChange={(e) => setMemberCustomPct(e.target.value ? Number(e.target.value) : undefined)}
-                  className="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-[#fcfaf5] border border-[#b6b6b6] focus:border-[#1a3300] rounded-[6px] px-3 py-2 text-[#1a3300] font-mono focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -489,7 +489,7 @@ export function GroupManagementModal({
               <button
                 type="submit"
                 disabled={isLoading || !memberName.trim() || !memberEmail.trim() || !memberUpi.trim()}
-                className="px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-semibold rounded-xl shadow-lg shadow-cyan-500/20 transition-all flex items-center gap-2 disabled:opacity-50 text-xs"
+                className="px-5 py-2 bg-[#1a3300] hover:bg-[#1a3300]/90 text-[#fcfaf5] font-semibold rounded-[6px] shadow-sm transition-transform active:scale-[0.97] flex items-center gap-2 disabled:opacity-50 text-xs"
               >
                 <UserPlus className="w-3.5 h-3.5" />
                 <span>{isLoading ? 'Adding Roommate...' : 'Add Roommate'}</span>
@@ -501,44 +501,44 @@ export function GroupManagementModal({
         {/* TAB 4: MEMBERS LIST */}
         {activeTab === 'members_list' && (
           <div className="space-y-4">
-            <div className="text-xs text-gray-400 font-sans">
-              Roommates in <span className="text-cyan-300 font-semibold">{currentHousehold?.name}</span>:
+            <div className="text-xs text-[#1a3300]/70 font-sans">
+              Roommates in <span className="text-[#1a3300] font-bold">{currentHousehold?.name}</span>:
             </div>
 
             <div className="space-y-2.5 max-h-80 overflow-y-auto pr-1">
               {currentHousehold?.roommates?.length === 0 ? (
-                <div className="p-6 bg-slate-950/40 rounded-xl text-center text-xs text-gray-500 font-mono">
+                <div className="p-6 bg-[#fcfaf5] rounded-[8px] border border-dashed border-[#b6b6b6] text-center text-xs text-[#1a3300]/60 font-mono">
                   No roommates registered yet. Click "Add Roommate" above to invite flatmates!
                 </div>
               ) : (
                 currentHousehold?.roommates?.map((rm) => (
                   <div
                     key={rm.id}
-                    className="p-3.5 bg-slate-950/80 rounded-xl border border-slate-800 flex items-center justify-between hover:border-slate-700 transition-colors"
+                    className="p-3.5 bg-[#fcfaf5] rounded-[8px] border border-[#1a3300] flex items-center justify-between shadow-sm"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                      <div className="w-8 h-8 rounded-[6px] bg-[#f6d0ff] border border-[#1a3300] flex items-center justify-center text-[#1a3300] font-bold text-xs">
                         {rm.name.charAt(0)}
                       </div>
                       <div>
-                        <div className="text-sm font-semibold text-white flex items-center gap-2">
+                        <div className="text-sm font-semibold text-[#1a3300] flex items-center gap-2">
                           <span>{rm.name}</span>
                           {rm.habit_badge && (
-                            <span className="px-1.5 py-0.5 text-[9px] font-mono bg-purple-500/10 text-purple-300 border border-purple-500/30 rounded">
+                            <span className="px-1.5 py-0.5 text-[9px] font-mono bg-[#d5f5c2] text-[#1a3300] border border-[#1a3300] rounded">
                               {rm.habit_badge}
                             </span>
                           )}
                         </div>
-                        <div className="text-[11px] font-mono text-cyan-400">{rm.upi_vpa}</div>
+                        <div className="text-[11px] font-mono text-[#1a3300]/70">{rm.upi_vpa}</div>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4 text-xs font-mono text-gray-400">
+                    <div className="flex items-center gap-4 text-xs font-mono text-[#1a3300]/70">
                       <span>{rm.room_sq_ft} sq ft</span>
                       <button
                         onClick={() => handleRemoveMember(rm.id, rm.name)}
                         title="Remove member"
-                        className="p-1.5 text-gray-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors"
+                        className="p-1.5 text-[#1a3300]/60 hover:text-[#cb5521] hover:bg-[#cb5521]/10 rounded-[4px] transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>

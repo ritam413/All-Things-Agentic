@@ -30,7 +30,7 @@ roommate-ops/
    - *Responsibilities*: Gemini Multimodal parser (`receipt_parser.py` with JSON sanitization and category normalization), Split algorithms (`split_calculator.py`), Min-Cash-Flow debt solver (`debt_simplifier.py`), Tone escalation rules (`escalation_engine.py`), Firestore memory bank (`firestore_service.py` decoupled repository + `memory_bank.py`), FastAPI REST endpoints (`routes.py`), Time-travel simulator, OpenAPI contracts, Cloud Run Dockerfile, Cloud Scheduler setup, unit tests.
 2. **Developer 2 (Frontend & Multimodal UX Specialist)**:
    - *Domain*: `frontend/`
-   - *Responsibilities*: Next.js glassmorphism design system, receipt upload dropzone with live Gemini preview, interactive debt network graph, real-time agent activity audit feed, UPI QR & one-tap payment modals, time-travel fast-forward slider UI.
+   - *Responsibilities*: Next.js Say Briefly design system (creative agency sketchbook on cream paper), receipt upload dropzone with live Gemini preview, interactive debt network graph, real-time agent activity audit feed, UPI QR & one-tap payment modals, time-travel fast-forward slider UI.
 3. **Developer 3 (Auxiliary Assets & Demo Deck)**:
    - *Domain*: `docs/assets/`, presentation deck
    - *Responsibilities*: Static sample bill images, presentation deck polish. *Core application has 0% dependency on Dev 3.*
@@ -41,4 +41,4 @@ roommate-ops/
 - **Python Suite**: `python -m pytest backend/tests -v` (47 tests across contracts, core tools, receipt parser, split calculator, debt simplifier, payment links, and API routes).
 - **Frontend Typecheck**: `npm run typecheck` in `frontend/` (verifies TypeScript parity against `shared/types.ts`).
 - **Seams & Decoupling**: Storage repository (`firestore_service.py`) remains a pure persistence adapter; habit profiling and debt settlement logic reside in domain tools and orchestrator (`core.py`).
-
+- **Frontend Design System & Motion Standards**: **Say Briefly** design system (`#fcfaf5` Cream Paper, `#1a3300` Forest Ink, `#ffe95c` Highlighter Yellow, and sticky-note pastels), paired with Emil Kowalski & Animate craft standards (sub-300ms transitions, custom `--ease-out: cubic-bezier(0.23, 1, 0.32, 1)`, tactile button active press `scale(0.97)`, modal pop-in from `scale(0.95)`, and GPU-only transforms).
