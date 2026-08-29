@@ -1,3 +1,51 @@
+## 2026-08-29 — Dev 2: Ticket T-19 Complete (Frontend Auth Context, Profile Modal & Persona Quick-Switcher)
+
+### Objective
+Implement Ticket T-19: Client-side authentication state management, user profile modal with live UPI VPA handle editing, custom login/registration flows, and header quick-demo persona switcher.
+
+### Changes Made
+- **Frontend API Client (`frontend/src/services/api.ts`)**:
+  - Added `fetchDemoPersonas`, `switchDemoPersona`, `registerUser`, `loginUser`, `fetchCurrentUser`, and `updateUserProfile`.
+- **Authentication Context (`frontend/src/context/AuthContext.tsx`)**:
+  - Built `AuthProvider` managing `currentUser`, `token`, `personas`, `isLoading`, and `error`.
+  - Implemented `switchPersona`, `login`, `register`, `updateProfile`, and `logout` actions with `localStorage` persistence and automatic initialization.
+- **User Profile Modal (`frontend/src/components/UserProfileModal.tsx`)**:
+  - Created glassmorphic profile modal allowing users to edit display name, phone number, and UPI Payee VPA handle with instant live updates and validation.
+  - Displays user ID, email, and active household memberships.
+- **Custom Auth Modal (`frontend/src/components/AuthModal.tsx`)**:
+  - Created tabbed glassmorphic modal supporting custom account sign in and roommate registration.
+- **Root Layout & Dashboard Header Integration (`frontend/src/app/layout.tsx`, `frontend/src/app/page.tsx`)**:
+  - Wrapped root application in `<AuthProvider>`.
+  - Integrated 1-click persona quick-switcher pills (Alex, Priya, Rahul, Samira) into the top header.
+  - Added active user status chip with avatar, name, UPI handle, and settings trigger.
+  - Connected `UserProfileModal` and `AuthModal`.
+- **Tickets**:
+  - Marked `tickets/T-19-frontend-auth-context-and-profile-modal.md` as **Completed**.
+
+### Files Changed
+- `frontend/src/services/api.ts` [MODIFIED]
+- `frontend/src/context/AuthContext.tsx` [NEW]
+- `frontend/src/components/UserProfileModal.tsx` [NEW]
+- `frontend/src/components/AuthModal.tsx` [NEW]
+- `frontend/src/app/layout.tsx` [MODIFIED]
+- `frontend/src/app/page.tsx` [MODIFIED]
+- `tickets/T-19-frontend-auth-context-and-profile-modal.md` [MODIFIED]
+- `features_implemented.md` [MODIFIED]
+- `tracker.md` [MODIFIED]
+
+### Verification
+- `npm run typecheck --prefix frontend` — passed with 0 errors.
+- `python -m pytest backend/tests -v` — 86/86 passed in 0.89s (100% pass rate).
+
+### Current State
+Ticket T-19 is fully implemented and verified. Users can switch demo personas with 1 click, edit their UPI VPA handles in real time, or log in/register with custom accounts.
+
+### Next Agent Instructions
+1. Proceed to **Ticket T-20** (`tickets/T-20-frontend-group-switcher-and-member-modal.md`): Multi-Group Switcher & Add Roommate / People Dialog.
+2. Next follow up with **Ticket T-21** (`tickets/T-21-frontend-who-paid-tracker-widget.md`): "Who Has Paid vs Who Is Left" Dashboard Widget.
+
+---
+
 ## 2026-08-29 — Dev 1: Ticket T-18 Complete (Settlement Matrix & "Who Has Paid vs Who Is Left" Engine)
 
 ### Objective

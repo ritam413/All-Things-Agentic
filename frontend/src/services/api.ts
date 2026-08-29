@@ -201,3 +201,73 @@ export async function fetchSettlementStatus(householdId = DEFAULT_HOUSEHOLD_ID):
   if (!res.ok) throw new Error('Failed to fetch household settlement status');
   return res.json();
 }
+
+// --- Auth & User Profile API ---
+
+export async function fetchDemoPersonas(): Promise<User[]> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/personas`);
+  if (!res.ok) throw new Error('Failed to fetch demo personas');
+  return res.json();
+}
+
+export async function switchDemoPersona(personaId: string): Promise<AuthToken> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/switch-persona/${encodeURIComponent(personaId)}`, {
+    method: 'POST',
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to switch persona' }));
+    throw new Error(err.detail || 'Failed to switch persona');
+  }
+  return res.json();
+}
+
+export async function registerUser(req: UserRegisterRequest): Promise<AuthToken> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(req),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Registration failed' }));
+    throw new Error(err.detail || 'Registration failed');
+  }
+  return res.json();
+}
+
+export async function loginUser(req: UserLoginRequest): Promise<AuthToken> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(req),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Invalid email or password' }));
+    throw new Error(err.detail || 'Invalid email or password');
+  }
+  return res.json();
+}
+
+export async function fetchCurrentUser(token: string): Promise<User> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error('Failed to fetch current user');
+  return res.json();
+}
+
+export async function updateUserProfile(req: UserProfileUpdateRequest, token: string): Promise<User> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/profile`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(req),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to update profile' }));
+    throw new Error(err.detail || 'Failed to update profile');
+  }
+  return res.json();
+}
+

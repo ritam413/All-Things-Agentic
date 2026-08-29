@@ -13,15 +13,22 @@ import { AgentActivityStream } from '../components/AgentActivityStream';
 import { PaymentModal } from '../components/PaymentModal';
 import { TimeTravelSlider } from '../components/TimeTravelSlider';
 import { RoommateBadges } from '../components/RoommateBadges';
-import { Home, Sparkles, CreditCard, Layers, ExternalLink, ShieldCheck } from 'lucide-react';
+import { UserProfileModal } from '../components/UserProfileModal';
+import { AuthModal } from '../components/AuthModal';
+import { useAuth } from '../context/AuthContext';
+import { Home, Sparkles, CreditCard, Layers, ExternalLink, ShieldCheck, User, Settings, LogIn, Check } from 'lucide-react';
 
 export default function DashboardPage() {
+  const { currentUser, personas, switchPersona, isLoading: authLoading } = useAuth();
+
   const [household, setHousehold] = useState<Household | null>(null);
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [activityLogs, setActivityLogs] = useState<AgentActivityLog[]>([]);
   const [selectedShare, setSelectedShare] = useState<SplitShare | null>(null);
   const [selectedSettlement, setSelectedSettlement] = useState<Settlement | null>(null);
   const [isPayModalOpen, setIsPayModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const loadData = async () => {
     try {
@@ -81,18 +88,92 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <a
-            href="http://localhost:8000/docs"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="py-2 px-3.5 bg-slate-900 hover:bg-slate-800 text-gray-300 font-mono text-xs rounded-xl border border-slate-700 hover:border-cyan-500/40 transition-all flex items-center gap-1.5"
-          >
-            <span>FastAPI Docs</span>
-            <ExternalLink className="w-3 h-3 text-cyan-400" />
-          </a>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto">
+          {/* Active User Chip */}
+          {currentUser && (
+            <div className="flex items-center gap-2.5 p-1.5 pr-3 bg-slate-900/90 border border-slate-700/80 hover:border-cyan-500/40 rounded-2xl transition-all shadow-lg">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-md">
+                {currentUser.name.charAt(0)}
+              </div>
+              <div className="text-left leading-tight">
+                <div className="text-xs font-semibold text-white flex items-center gap-1.5">
+                  <span>{currentUser.name}</span>
+                </div>
+                <div className="text-[10px] font-mono text-cyan-400 truncate max-w-[130px]">
+                  {currentUser.upi_vpa || 'No UPI handle'}
+                </div>
+              </div>
+              <button
+                onClick={() => setIsProfileModalOpen(true)}
+                title="Edit Profile & UPI VPA"
+                className="p-1.5 ml-1 text-gray-400 hover:text-cyan-300 hover:bg-slate-800 rounded-lg transition-colors"
+              >
+                <Settings className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          )}
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsAuthModalOpen(true)}
+              className="py-2 px-3 bg-slate-900/90 hover:bg-slate-800 text-gray-300 font-mono text-xs rounded-xl border border-slate-700 hover:border-purple-500/40 transition-all flex items-center gap-1.5"
+            >
+              <LogIn className="w-3 h-3 text-purple-400" />
+              <span>Login / Register</span>
+            </button>
+
+            <a
+              href="http://localhost:8000/docs"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-gray-300 font-mono text-xs rounded-xl border border-slate-700 hover:border-cyan-500/40 transition-all flex items-center gap-1.5"
+            >
+              <span>FastAPI Docs</span>
+              <ExternalLink className="w-3 h-3 text-cyan-400" />
+            </a>
+          </div>
         </div>
       </header>
+
+      {/* Demo Persona Quick-Switcher Bar */}
+      <div className="glass-card p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border border-cyan-500/20 bg-slate-950/60 rounded-2xl">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 bg-cyan-500/10 text-cyan-400 rounded-lg">
+            <Sparkles className="w-4 h-4" />
+          </div>
+          <div>
+            <span className="text-xs font-semibold text-white">1-Click Demo Persona Switcher</span>
+            <p className="text-[11px] font-mono text-gray-400">Experience zero-friction persona simulation</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 flex-wrap">
+          {personas.map((p) => {
+            const isActive = currentUser?.id === p.id;
+            return (
+              <button
+                key={p.id}
+                onClick={() => switchPersona(p.id)}
+                disabled={authLoading}
+                className={`px-3 py-1.5 rounded-xl font-mono text-xs transition-all flex items-center gap-2 ${
+                  isActive
+                    ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold shadow-lg shadow-cyan-500/20 scale-105'
+                    : 'bg-slate-900 hover:bg-slate-800 text-gray-300 border border-slate-800 hover:border-cyan-500/30'
+                }`}
+              >
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    isActive ? 'bg-black animate-pulse' : 'bg-gray-500'
+                  }`}
+                />
+                <span>{p.name.split(' ')[0]}</span>
+                {isActive && <Check className="w-3 h-3 stroke-[3]" />}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
 
       {/* Household Badges */}
       {household && <RoommateBadges roommates={household.roommates} />}
@@ -202,6 +283,19 @@ export default function DashboardPage() {
           setSelectedSettlement(null);
         }}
         onPaymentSuccess={loadData}
+      />
+
+      {/* User Profile & Settings Modal */}
+      <UserProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+      />
+
+      {/* Login & Register Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={loadData}
       />
     </main>
   );
