@@ -6,10 +6,11 @@ import { parseReceiptFile, ingestPresetBill } from '../services/api';
 import { ParsedExpense, SplitRuleType } from '../../../shared/types';
 
 interface Props {
+  householdId?: string;
   onBillIngested: () => void;
 }
 
-export const ReceiptDropzone: React.FC<Props> = ({ onBillIngested }) => {
+export const ReceiptDropzone: React.FC<Props> = ({ householdId, onBillIngested }) => {
   const [loading, setLoading] = useState(false);
   const [splitRule, setSplitRule] = useState<SplitRuleType>('EQUAL');
 
@@ -19,7 +20,7 @@ export const ReceiptDropzone: React.FC<Props> = ({ onBillIngested }) => {
 
     setLoading(true);
     try {
-      await parseReceiptFile(file);
+      await parseReceiptFile(file, householdId);
       onBillIngested();
     } catch (err) {
       console.error(err);
@@ -31,7 +32,7 @@ export const ReceiptDropzone: React.FC<Props> = ({ onBillIngested }) => {
   const handlePreset = async (presetType: string) => {
     setLoading(true);
     try {
-      await ingestPresetBill(presetType, splitRule);
+      await ingestPresetBill(presetType, splitRule, householdId);
       onBillIngested();
     } catch (err) {
       console.error(err);

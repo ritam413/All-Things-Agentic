@@ -97,9 +97,10 @@ export async function fetchExpenses(householdId = DEFAULT_HOUSEHOLD_ID): Promise
   return res.json();
 }
 
-export async function parseReceiptFile(file: File): Promise<ParsedExpense> {
+export async function parseReceiptFile(file: File, householdId = DEFAULT_HOUSEHOLD_ID): Promise<ParsedExpense> {
   const formData = new FormData();
   formData.append('file', file);
+  formData.append('household_id', householdId);
 
   const res = await fetch(`${API_BASE_URL}/api/expenses/parse`, {
     method: 'POST',
@@ -109,13 +110,17 @@ export async function parseReceiptFile(file: File): Promise<ParsedExpense> {
   return res.json();
 }
 
-export async function ingestPresetBill(presetType: string, splitRule: SplitRuleType = 'EQUAL'): Promise<Expense> {
+export async function ingestPresetBill(
+  presetType: string,
+  splitRule: SplitRuleType = 'EQUAL',
+  householdId = DEFAULT_HOUSEHOLD_ID
+): Promise<Expense> {
   const res = await fetch(`${API_BASE_URL}/api/expenses/preset`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       preset_type: presetType,
-      household_id: DEFAULT_HOUSEHOLD_ID,
+      household_id: householdId,
       split_rule: splitRule,
     }),
   });

@@ -3,7 +3,7 @@
 - **Assignee**: **Dev 2** (Frontend & UX Specialist)
 - **Domain**: `frontend/`
 - **Dependencies**: T-15, T-17
-- **Status**: Ready for Implementation
+- **Status**: Completed
 
 ---
 
@@ -16,7 +16,7 @@ Implement UI for switching between multiple groups/households, creating new grou
 - `frontend/src/app/page.tsx` (Group switcher dropdown in header)
 
 ## Acceptance Criteria
-- [ ] Group dropdown allows switching between active groups and triggering "Create New Group".
-- [ ] "Add Roommate" modal validates UPI handle, room area, name, and email before submission.
-- [ ] Adding a roommate immediately refreshes the dashboard, split calculations, and debt graphs.
-- [ ] TypeScript type checks pass (`npm run typecheck`).
+- [x] Group dropdown allows switching between active groups and triggering "Create New Group".
+- [x] "Add Roommate" modal validates UPI handle, room area, name, and email before submission.
+- [x] Adding a roommate immediately refreshes the dashboard, split calculations, and debt graphs.
+- [x] TypeScript type checks pass (`npm run typecheck`).

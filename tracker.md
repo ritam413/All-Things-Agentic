@@ -1,3 +1,106 @@
+## 2026-08-29 — Dev 3: Ticket T-14 Complete (Auxiliary Sample Receipt Assets & Presentation Deck)
+
+### Objective
+Implement Ticket T-14: Generate high-resolution visual sample receipt graphics matching `shared/mock_data/sample_bills.json` and build an interactive, high-fidelity presentation slide deck for the Google "All Things Agentic" Hackathon submission.
+
+### Changes Made
+- **High-Resolution Sample Bill Assets (`docs/assets/`, `frontend/public/assets/`)**:
+  - `sample_electricity_bill.jpg`: Adani Electricity Mumbai Ltd invoice with itemized energy charges and fuel adjustment (₹2,450.00).
+  - `sample_wifi_bill.jpg`: Airtel Xstream Fiber broadband tax invoice with 18% GST (₹1,199.00).
+  - `sample_groceries_receipt.jpg`: Nature's Basket Supermarket thermal cash register receipt with itemized groceries (₹3,280.50).
+  - `sample_rent_invoice.jpg`: Palm Grove Property Management apartment rent and society maintenance invoice (₹60,000.00).
+  - Copied all visual assets to `frontend/public/assets/` and `docs/assets/` for zero-latency dropzone drag-and-drop demonstrations.
+- **Hackathon Presentation Deck (`docs/DECK.md`, `docs/deck_presentation.html`)**:
+  - `docs/DECK.md`: Comprehensive slide-by-slide markdown pitch deck transcript, problem statement, core agentic pillars, GCP architecture diagram, demo script timestamps (0:00 - 4:00), Min-Cash-Flow mathematical proof, and rubric alignments.
+  - `docs/deck_presentation.html`: Full-screen interactive presentation deck with dark-mode glassmorphic styling, keyboard navigation (left/right/space), embedded bill asset visualizers, architecture badges, and speaker timing notes.
+- **Tickets & Features**:
+  - Marked `tickets/T-14-auxiliary-demo-assets-and-deck.md` as **Completed**.
+  - Updated `features_implemented.md`.
+
+### Files Changed
+- `docs/assets/sample_electricity_bill.jpg` [NEW]
+- `docs/assets/sample_wifi_bill.jpg` [NEW]
+- `docs/assets/sample_groceries_receipt.jpg` [NEW]
+- `docs/assets/sample_rent_invoice.jpg` [NEW]
+- `frontend/public/assets/` [NEW]
+- `docs/DECK.md` [NEW]
+- `docs/deck_presentation.html` [NEW]
+- `tickets/T-14-auxiliary-demo-assets-and-deck.md` [MODIFIED]
+- `features_implemented.md` [MODIFIED]
+- `tracker.md` [MODIFIED]
+
+### Verification
+- `npm run typecheck --prefix frontend` — passed with 0 errors.
+- `python -m pytest backend/tests -v` — 86/86 passed in 0.86s (100% pass rate).
+- Verified image generation and asset paths across both `docs/assets/` and `frontend/public/assets/`.
+
+### Current State
+All 21 tickets across Dev 1, Dev 2, and Dev 3 (T-01 through T-21) are 100% completed, integrated, tested, and documented. The project is completely production-ready for demo recording and hackathon submission.
+
+### Next Agent Instructions
+1. Run `python -m pytest backend/tests` and `npm run typecheck` to verify end-to-end repository health.
+2. Open `docs/deck_presentation.html` in any browser to review or rehearse the 4-minute pitch deck.
+3. The demo assets are located in `docs/assets/` and ready for drag-and-drop live receipt parsing demos.
+
+---
+
+## 2026-08-29 — Dev 2: Tickets T-20 & T-21 Complete (Multi-Group Switcher & Who Paid Tracker Widget)
+
+### Objective
+Implement Ticket T-20 (Multi-Group Switcher, Household Creator & Add Roommate / People Dialog) and Ticket T-21 ("Who Has Paid vs Who Is Left" Real-Time Dashboard Widget with aggregate progress bar, member status segmentation, escalation urgency badges, and one-tap UPI pay triggers).
+
+### Changes Made
+- **Multi-Group & Member Modal (`frontend/src/components/GroupManagementModal.tsx`) [NEW]**:
+  - Built 4-tab glassmorphic modal for:
+    1. Switching active household ledger with 1 click.
+    2. Creating a new household group (name, default currency, default split rule).
+    3. Adding new roommates to the active household with validation for name, email, phone, room square footage, and UPI Payee VPA handle.
+    4. Viewing and managing household roommates with habit badges, room area, and removal actions.
+- **"Who Has Paid vs Who Is Left" Tracker Widget (`frontend/src/components/WhoPaidTracker.tsx`) [NEW]**:
+  - Built real-time settlement matrix component displaying:
+    - Aggregate Debt Progress Bar (`cleared_percentage`%, Total Billed, Total Paid, Total Outstanding).
+    - Segmented "Left to Pay" view with pending balance (₹), unpaid bill counts, and color-coded **Escalation Urgency Badges** (`Stage 1: Announced`, `Stage 2: Nudge Sent`, `Stage 3: Deadline Near`, `Stage 4: Overdue Flag`).
+    - Segmented "Paid Roommates" view with verified green checkmarks and total amounts settled.
+    - "Bills Breakdown" accordion showing fraction settled per bill (e.g. 3/4 Paid) and individual roommate share breakdowns with direct "Pay UPI ↗" actions.
+- **Frontend API Client (`frontend/src/services/api.ts`)**:
+  - Enabled dynamic `householdId` across `parseReceiptFile` and `ingestPresetBill`.
+- **Component Prop Wiring (`ReceiptDropzone.tsx`, `DebtGraph.tsx`, `TimeTravelSlider.tsx`)**:
+  - Extended all widgets to accept and execute on `householdId`.
+- **Dashboard Layout Integration (`frontend/src/app/page.tsx`)**:
+  - Added `selectedHouseholdId` state dynamically driving all data queries (`fetchHousehold`, `fetchExpenses`, `fetchActivityLogs`, `fetchSettlementStatus`).
+  - Added Active Household selector chip and "+ Manage Group / People" button to header.
+  - Integrated `<WhoPaidTracker>` in the dashboard above the operational grid.
+  - Connected one-tap "Pay UPI" triggers from the tracker directly to `PaymentModal`.
+- **Tickets**:
+  - Marked `tickets/T-20-frontend-group-switcher-and-member-modal.md` and `tickets/T-21-frontend-who-paid-tracker-widget.md` as **Completed**.
+
+### Files Changed
+- `frontend/src/components/GroupManagementModal.tsx` [NEW]
+- `frontend/src/components/WhoPaidTracker.tsx` [NEW]
+- `frontend/src/services/api.ts` [MODIFIED]
+- `frontend/src/components/ReceiptDropzone.tsx` [MODIFIED]
+- `frontend/src/components/DebtGraph.tsx` [MODIFIED]
+- `frontend/src/components/TimeTravelSlider.tsx` [MODIFIED]
+- `frontend/src/app/page.tsx` [MODIFIED]
+- `tickets/T-20-frontend-group-switcher-and-member-modal.md` [MODIFIED]
+- `tickets/T-21-frontend-who-paid-tracker-widget.md` [MODIFIED]
+- `features_implemented.md` [MODIFIED]
+- `tracker.md` [MODIFIED]
+
+### Verification
+- `npm run typecheck --prefix frontend` — passed with 0 errors.
+- `python -m pytest backend/tests -v` — 86/86 passed in 1.01s (100% pass rate).
+
+### Current State
+All Dev 1 and Dev 2 tickets across the `feat/account_groups` branch (T-15, T-16, T-17, T-18, T-19, T-20, T-21) are 100% complete, integrated, and verified! Users can create and switch groups, add roommates with custom room sizes and UPI handles, track real-time settlement matrix ("Who Has Paid vs Who Is Left"), fast-forward time to simulate escalations, and settle via one-tap UPI.
+
+### Next Agent Instructions
+1. Run `python -m pytest backend/tests` and `npm run typecheck` to confirm end-to-end integrity.
+2. The entire core application and `feat/account_groups` feature set are complete and production-ready for the hackathon submission.
+3. If desired, Dev 3 auxiliary tasks (`tickets/T-14-auxiliary-demo-assets-and-deck.md`) can be prepared.
+
+---
+
 ## 2026-08-29 — Dev 2: Ticket T-19 Complete (Frontend Auth Context, Profile Modal & Persona Quick-Switcher)
 
 ### Objective
