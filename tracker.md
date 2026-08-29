@@ -1,3 +1,167 @@
+## 2026-08-29 — Say Briefly Design System Overhaul via /emil-design-eng and /animate
+
+### Objective
+Update project documentation with the **Say Briefly** design system ("creative agency sketchbook on cream paper") and implement the complete visual language and motion engineering across the frontend application.
+
+### Changes Made
+1. **Design System Specification & Documentation**:
+   - `docs/09-design-systems.md`: Fully rewritten with the Say Briefly Style Reference (color tokens, typography scales, sticky-note surfaces, and Emil Kowalski motion rules).
+   - `docs/design_system_preview.html`: Overhauled HTML preview to showcase Cream Paper, Forest Ink, Highlighter Yellow, and sticky-note component cards.
+   - `context.md` & `features_implemented.md`: Updated with Say Briefly frontend design system architecture.
+2. **Typography & Styling Architecture**:
+   - `frontend/src/app/layout.tsx`: Loaded Google fonts (`Bricolage Grotesque` 700/800 for headlines, `Inter` 300..700 for UI, and `Roboto Mono` for metadata). Configured `bg-[#fcfaf5] text-[#1a3300]` and warm cream Sonner Toaster.
+   - `frontend/tailwind.config.js`: Added color tokens (`forest-ink`, `highlighter-yellow`, `cream-paper`, `pencil-gray`, `whisper-gray`, `sticky-note-mint`, `sticky-note-teal`, `sticky-note-blush`, `terracotta`) and font families.
+   - `frontend/src/app/globals.css`: Defined custom properties, sticky-note surfaces, marker highlight utility, and Emil Kowalski motion tokens (`:active { transform: scale(0.97) }`, `--ease-out`, `--ease-in-out`, `--ease-drawer`, and `saybriefly-pop-in` from `scale(0.95)`).
+3. **Component Overhaul**:
+   - `frontend/src/app/page.tsx`: Floating pill-shaped top nav bar (`16px` radius, `lo` yellow monogram), Bricolage Grotesque display headline with Highlighter Yellow marker wash, sticky-note demo persona switcher, and backed-by strip.
+   - `frontend/src/components/WhoPaidTracker.tsx`: Re-themed settlement matrix with pastel progress bar, sticky note tabs, and clean member segmentation.
+   - `frontend/src/components/ReceiptDropzone.tsx`: Sketchbook-style dashed dropzone, preset buttons with active tactile scale.
+   - `frontend/src/components/DebtGraph.tsx`: Sketchbook Min-Cash-Flow visualizer with mint/teal settlement cards.
+   - `frontend/src/components/AgentActivityStream.tsx`: Audit timeline with Roboto Mono timestamps and severity-coded border indicators.
+   - `frontend/src/components/RoommateBadges.tsx`: Habit cards rendered as pastel sticky notes (Mint, Teal, Blush, Yellow).
+   - `frontend/src/components/PaymentModal.tsx`: Cream paper modal dialog with 16px radius, UPI QR presentation, and Forest Ink CTA.
+   - `frontend/src/components/UserProfileModal.tsx`, `AuthModal.tsx`, `GroupManagementModal.tsx`: Re-themed with Say Briefly tokens, clean inputs, and tactile buttons.
+
+### Files Changed
+- `docs/09-design-systems.md` [MODIFIED]
+- `docs/design_system_preview.html` [MODIFIED]
+- `context.md` [MODIFIED]
+- `features_implemented.md` [MODIFIED]
+- `frontend/tailwind.config.js` [MODIFIED]
+- `frontend/src/app/globals.css` [MODIFIED]
+- `frontend/src/app/layout.tsx` [MODIFIED]
+- `frontend/src/app/page.tsx` [MODIFIED]
+- `frontend/src/components/WhoPaidTracker.tsx` [MODIFIED]
+- `frontend/src/components/ReceiptDropzone.tsx` [MODIFIED]
+- `frontend/src/components/DebtGraph.tsx` [MODIFIED]
+- `frontend/src/components/AgentActivityStream.tsx` [MODIFIED]
+- `frontend/src/components/RoommateBadges.tsx` [MODIFIED]
+- `frontend/src/components/PaymentModal.tsx` [MODIFIED]
+- `frontend/src/components/UserProfileModal.tsx` [MODIFIED]
+- `frontend/src/components/AuthModal.tsx` [MODIFIED]
+- `frontend/src/components/GroupManagementModal.tsx` [MODIFIED]
+- `tracker.md` [MODIFIED]
+
+### Implementation Details
+- **Visual Palette**: 90%+ structural weight carried by Forest Ink (`#1a3300`) over Cream Paper (`#fcfaf5`), punctuated by Highlighter Yellow (`#ffe95c`) text marker highlights.
+- **Motion Engineering**: Adheres strictly to `/emil-design-eng` and `/animate` — sub-300ms transitions, custom cubic-bezier easings (`--ease-out: cubic-bezier(0.23, 1, 0.32, 1)`), tactile pointer-down feedback (`scale(0.97)` on `:active`), and modal pop-in from `scale(0.95)`.
+
+### Verification
+- `npm run typecheck --prefix frontend` — passed with 0 errors.
+- `python -m pytest backend/tests -v` — 86/86 tests passed in 1.00s.
+
+### Current State
+RoomieOps AI documentation and frontend application now fully express the Say Briefly design system with sketchbook aesthetics, rich tactile animations, and seamless end-to-end functionality.
+
+### Next Agent Instructions
+1. Run `npm run dev` in `frontend/` to view the live Say Briefly dashboard at `http://localhost:3000`.
+2. Inspect `docs/09-design-systems.md` and `docs/design_system_preview.html` for complete design token documentation.
+
+---
+
+## 2026-08-29 — Frontend Redesign via /apple-design, /pick-ui-library, /find-animation-opportunities, and /ask-sonner
+
+### Objective
+Execute the four requested skills sequentially via direct invocation:
+1. `/apple-design`: Redesign global styles and interaction models for 1:1 tracking, instant pointer-down response (`scale(0.97)` on `:active`), interruptibility, and fluid glassmorphism tokens.
+2. `/pick-ui-library`: Select and install `sonner` as the premier modern toast framework for Next.js.
+3. `/find-animation-opportunities`: Identify high-leverage UI motion (tactile button presses, pop-in modals with `scale(0.95)`, fluid progress transitions, dropzone pulse feedback) while eliminating over-animated lag.
+4. `/ask-sonner`: Install `sonner`, mount `<Toaster />` in `layout.tsx`, and wire interactive toast notifications across receipt ingestion, persona switching, and payment confirmations.
+
+### Changes Made
+- **Package Installation (`frontend/package.json`)**: Installed `sonner`.
+- **Global Styles & Motion System (`frontend/src/app/globals.css`)**:
+  - Encoded Emil Kowalski & Apple Design tokens (`--ease-out`, `--ease-in-out`, `--ease-drawer`, `--duration-fast`, `--duration-normal`).
+  - Added tactile `:active` state (`transform: scale(0.97)`) on all interactive buttons.
+  - Implemented `.glass-modal`, `.glass-card-glow`, and `.animate-pop-in` (starting at `scale(0.95)` with opacity, never `scale(0)`).
+  - Added `@media (prefers-reduced-motion: reduce)` accessibility rules.
+- **Root Layout (`frontend/src/app/layout.tsx`)**: Mounted dark-themed, rich-colored `<Toaster />` from `sonner`.
+- **Payment Modal (`frontend/src/components/PaymentModal.tsx`)**:
+  - Converted to `.glass-modal` with `.animate-pop-in`.
+  - Added `toast.loading()` -> `toast.success()` / `toast.error()` lifecycle feedback on webhook payment confirmation.
+- **Receipt Dropzone (`frontend/src/components/ReceiptDropzone.tsx`)**:
+  - Integrated `toast` feedback on file upload, Gemini vision parsing, split rule selection, and sample preset ingestions.
+- **Dashboard (`frontend/src/app/page.tsx`)**:
+  - Added `toast.success()` on 1-click demo persona swaps.
+
+### Files Changed
+- `frontend/package.json` [MODIFIED]
+- `frontend/src/app/globals.css` [MODIFIED]
+- `frontend/src/app/layout.tsx` [MODIFIED]
+- `frontend/src/components/PaymentModal.tsx` [MODIFIED]
+- `frontend/src/components/ReceiptDropzone.tsx` [MODIFIED]
+- `frontend/src/app/page.tsx` [MODIFIED]
+- `tracker.md` [MODIFIED]
+
+### Verification
+- `npm run typecheck --prefix frontend` — passed with 0 errors.
+- `python -m pytest backend/tests -v` — 86/86 passed in 1.01s (100% pass rate).
+
+### Current State
+Frontend has been completely overhauled with Apple Design fluid motion standards, Emil Kowalski craft tokens, and Sonner toast architecture.
+
+### Next Agent Instructions
+1. Run `npm run dev` in `frontend/` to view the live animations and toast interactions.
+2. All subsequent components should use `:active { transform: scale(0.97); }` and custom `--ease-out` curves.
+
+---
+
+## 2026-08-29 — Installation of Emil Kowalski Frontend Skills & Motion Primitives in Agent Memory
+
+### Objective
+Integrate Emil Kowalski's frontend design engineering suite and Motion Primitives interaction guidelines into persistent agent memory, workspace skills (`.agents/skills/`), and global workspace rules (`.agents/rules/`).
+
+### Changes Made
+- **Slash Commands & Skill Triggers Configured**:
+  - `/emil-design-eng`: Trigger Emil Kowalski core design engineering doctrine, tactile details, and before/after craft review standards.
+  - `/animate`: Trigger animation decision sequence, tool hierarchy, custom easing tokens, and sub-300ms timing budgets.
+  - `/review-animations`: Trigger adversarial motion critique enforcing the 10 craft bars using `STANDARDS.md`.
+  - `/apple-design`: Trigger WWDC Designing Fluid Interfaces principles (1:1 tracking, pointer-down response, interruptibility, velocity handoff, momentum projection).
+  - `/animation-vocabulary`: Trigger reverse-lookup glossary for motion terms (origin-aware, stagger, rubber-banding, morph).
+  - `/ask-sonner`: Trigger Sonner toast architecture, recipes, and troubleshooting guide.
+  - `/pick-ui-library`: Trigger curated UI toolkit decisions (`base-ui`, `cmdk`, `sonner`, `vaul`, `motion`).
+  - `/find-animation-opportunities`: Trigger 4-stage frequency and purpose gate for UI motion.
+  - `/improve-animations`: Trigger codebase motion advisor audit workflow.
+  - `/motion-primitives`: Trigger shared layout tab indicators (`layoutId`), staggered reveals, spring cursors, and rolling tickers.
+  - `/fixing-motion-performance`: Trigger frame-rate guardrails, layout thrashing prevention, compositor property enforcement.
+- **Global Workspace Rule (`.agents/rules/frontend-motion-engineering.md`)**:
+  - Documents all slash command triggers and automatically loads into Antigravity IDE.
+- **Tracking Updates**:
+  - Updated `context.md`, `features_implemented.md`, and `tracker.md`.
+
+### Files Changed
+- `.agents/skills/emil-design-eng/SKILL.md` [NEW]
+- `.agents/skills/animate/SKILL.md` [NEW]
+- `.agents/skills/review-animations/SKILL.md` [NEW]
+- `.agents/skills/review-animations/STANDARDS.md` [NEW]
+- `.agents/skills/apple-design/SKILL.md` [NEW]
+- `.agents/skills/animation-vocabulary/SKILL.md` [NEW]
+- `.agents/skills/ask-sonner/SKILL.md` [NEW]
+- `.agents/skills/pick-ui-library/SKILL.md` [NEW]
+- `.agents/skills/find-animation-opportunities/SKILL.md` [NEW]
+- `.agents/skills/improve-animations/SKILL.md` [NEW]
+- `.agents/skills/fixing-motion-performance/SKILL.md` [NEW]
+- `.agents/skills/motion-primitives/SKILL.md` [NEW]
+- `.agents/rules/frontend-motion-engineering.md` [NEW]
+- `context.md` [MODIFIED]
+- `features_implemented.md` [MODIFIED]
+- `tracker.md` [MODIFIED]
+
+### Verification
+- Verified all skill markdown files have valid YAML frontmatter (`name`, `description`).
+- Verified rules in `.agents/rules/frontend-motion-engineering.md`.
+- `npm run typecheck --prefix frontend` — passed with 0 errors.
+- `python -m pytest backend/tests -v` — 86/86 passed in 0.84s (100% pass rate).
+
+### Current State
+All Emil Kowalski design engineering skills and Motion Primitives guides are permanently installed in the agent's memory and skills ecosystem.
+
+### Next Agent Instructions
+1. When generating UI code or animations, refer to `.agents/skills/emil-design-eng/` and `.agents/rules/frontend-motion-engineering.md`.
+2. Keep all transitions under 300ms, use `--ease-out: cubic-bezier(0.23, 1, 0.32, 1)`, and add `:active { transform: scale(0.97); }` to all interactive buttons.
+
+---
+
 ## 2026-08-29 — Full Ticket Audit & Repository Verification Complete (100% of T-01 through T-21)
 
 ### Objective

@@ -27,68 +27,68 @@ export const DebtGraph: React.FC<Props> = ({ householdId, onPaySettlement }) => 
   };
 
   return (
-    <div className="glass-card p-6 space-y-4">
+    <div className="bg-[#fcfaf5] p-6 space-y-4 rounded-[12px] border border-[#1a3300] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-heading font-bold text-white flex items-center gap-2">
-          <Layers className="w-5 h-5 text-brand-purple" />
-          <span>Debt Simplification Engine</span>
+        <h3 className="text-lg font-bold text-[#1a3300] flex items-center gap-2">
+          <Layers className="w-5 h-5 text-[#1a3300]" />
+          <span>Debt Simplification</span>
         </h3>
         <button
           onClick={handleCompute}
           disabled={loading}
-          className="py-1 px-3 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 font-mono text-xs rounded-lg border border-purple-500/40 flex items-center gap-1.5 transition-all"
+          className="py-1.5 px-3 bg-[#a8e5e5] hover:bg-[#95dada] text-[#1a3300] font-mono text-xs rounded-[6px] border border-[#1a3300] flex items-center gap-1.5 font-medium transition-transform active:scale-[0.97]"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           <span>Run Min-Cash-Flow</span>
         </button>
       </div>
 
-      <p className="text-xs text-gray-400">
-        Greedy bipartite graph reduction algorithm that eliminates circular debts and compresses raw IOUs down to the minimal transaction count.
+      <p className="text-xs text-[#1a3300]/70 font-sans leading-relaxed">
+        Greedy bipartite graph reduction algorithm that compresses circular debts down to minimal pairwise settlements.
       </p>
 
       {data ? (
         <div className="space-y-3">
           {/* Comparison Metrics */}
-          <div className="grid grid-cols-3 gap-2 p-3 bg-slate-950/70 rounded-xl border border-slate-800 text-center font-mono">
+          <div className="grid grid-cols-3 gap-2 p-3 bg-[#fcfaf5] rounded-[8px] border border-[#b6b6b6] text-center font-mono">
             <div>
-              <div className="text-[10px] text-gray-500 uppercase">Raw IOUs</div>
-              <div className="text-sm font-bold text-rose-400">{data.raw_debts_count} transfers</div>
+              <div className="text-[10px] text-[#1a3300]/60 uppercase">Raw IOUs</div>
+              <div className="text-sm font-bold text-[#cb5521]">{data.raw_debts_count} transfers</div>
             </div>
             <div>
-              <div className="text-[10px] text-gray-500 uppercase">Optimized</div>
-              <div className="text-sm font-bold text-emerald-400">{data.simplified_transfers_count} transfers</div>
+              <div className="text-[10px] text-[#1a3300]/60 uppercase">Optimized</div>
+              <div className="text-sm font-bold text-[#1a3300]">{data.simplified_transfers_count} transfers</div>
             </div>
             <div>
-              <div className="text-[10px] text-gray-500 uppercase">Total Settling</div>
-              <div className="text-sm font-bold text-cyan-400">₹{data.total_volume_cleared.toFixed(2)}</div>
+              <div className="text-[10px] text-[#1a3300]/60 uppercase">Total Settling</div>
+              <div className="text-sm font-bold text-[#1a3300]">₹{data.total_volume_cleared.toFixed(2)}</div>
             </div>
           </div>
 
           {/* Settlement List */}
-          <div className="space-y-2 max-h-56 overflow-y-auto">
+          <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
             {data.settlements.length === 0 ? (
-              <div className="p-4 bg-slate-950/40 rounded-xl text-center text-xs text-gray-500 flex items-center justify-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                <span>All household balances are completely settled!</span>
+              <div className="p-4 bg-[#d5f5c2] rounded-[8px] border border-[#1a3300] text-center text-xs text-[#1a3300] flex items-center justify-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#1a3300]" />
+                <span className="font-medium">All household balances are completely settled!</span>
               </div>
             ) : (
               data.settlements.map((s, idx) => (
                 <div
                   key={idx}
-                  className="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-center justify-between hover:border-purple-500/40 transition-colors"
+                  className="p-3 bg-[#d5f5c2] rounded-[6px] border border-[#1a3300] flex items-center justify-between shadow-sm"
                 >
-                  <div className="flex items-center gap-2 text-xs">
-                    <span className="font-medium text-gray-300">{s.from_roommate_name}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-purple-400" />
-                    <span className="font-medium text-white">{s.to_roommate_name}</span>
+                  <div className="flex items-center gap-2 text-xs font-mono">
+                    <span className="font-medium text-[#1a3300]">{s.from_roommate_name}</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-[#1a3300]" />
+                    <span className="font-bold text-[#1a3300]">{s.to_roommate_name}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="font-mono text-xs font-bold text-emerald-400">₹{s.amount.toFixed(2)}</span>
+                    <span className="font-mono text-xs font-bold text-[#1a3300]">₹{s.amount.toFixed(2)}</span>
                     {onPaySettlement && (
                       <button
                         onClick={() => onPaySettlement(s)}
-                        className="py-1 px-2 text-[10px] font-mono bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 rounded border border-cyan-500/40"
+                        className="py-1 px-2.5 text-[10px] font-mono bg-[#1a3300] text-[#fcfaf5] rounded-[6px] font-medium transition-transform active:scale-[0.97]"
                       >
                         UPI Pay ↗
                       </button>
@@ -100,8 +100,8 @@ export const DebtGraph: React.FC<Props> = ({ householdId, onPaySettlement }) => 
           </div>
         </div>
       ) : (
-        <div className="p-6 border border-dashed border-slate-800 rounded-xl text-center">
-          <p className="text-xs text-gray-500 font-mono">Click "Run Min-Cash-Flow" to compute optimal net transfers.</p>
+        <div className="p-6 border border-dashed border-[#b6b6b6] rounded-[8px] text-center bg-[#fcfaf5]">
+          <p className="text-xs text-[#1a3300]/60 font-mono">Click "Run Min-Cash-Flow" to compute optimal net transfers.</p>
         </div>
       )}
     </div>

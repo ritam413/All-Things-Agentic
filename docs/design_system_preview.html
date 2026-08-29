@@ -1,98 +1,141 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RoomieOps AI — Glassmorphism Design System & UI Components</title>
+  <title>RoomieOps AI — Say Briefly Design System & UI Components</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --color-forest-ink: #1a3300;
+      --color-highlighter-yellow: #ffe95c;
+      --color-cream-paper: #fcfaf5;
+      --color-pencil-gray: #b6b6b6;
+      --color-sticky-note-mint: #d5f5c2;
+      --color-sticky-note-teal: #a8e5e5;
+      --color-sticky-note-blush: #f6d0ff;
+      --color-terracotta: #cb5521;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
     body {
-      background-color: #080C14;
-      color: #F3F4F6;
+      background-color: var(--color-cream-paper);
+      color: var(--color-forest-ink);
       font-family: 'Inter', sans-serif;
     }
-    .font-heading { font-family: 'Outfit', sans-serif; }
-    .glass-panel {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
+    .font-display {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      letter-spacing: 0.04em;
+    }
+    .font-mono {
+      font-family: 'Roboto Mono', monospace;
+    }
+    button:active {
+      transform: scale(0.97);
     }
   </style>
 </head>
-<body class="p-6 md:p-12 selection:bg-cyan-500 selection:text-black">
-  <div class="max-w-7xl mx-auto space-y-10">
-    <div class="glass-panel p-8">
-      <h1 class="text-4xl font-heading font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">
-        RoomieOps AI Design System
+<body class="p-6 md:p-12 selection:bg-[#ffe95c] selection:text-[#1a3300]">
+  <div class="max-w-6xl mx-auto space-y-12">
+    <!-- Top Nav Mockup -->
+    <header class="bg-[#fcfaf5] border border-[#b6b6b6] rounded-[16px] px-6 py-3 flex items-center justify-between shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-[#ffe95c] rounded-[6px] border border-[#1a3300] flex items-center justify-center font-bold text-[#1a3300]">
+          lo
+        </div>
+        <span class="text-xl font-bold tracking-tight text-[#1a3300]">RoomieOps <span class="text-xs font-mono font-normal uppercase px-2 py-0.5 bg-[#d5f5c2] border border-[#1a3300] rounded-full">AI Agent</span></span>
+      </div>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-[#1a3300]">
+        <a href="#" class="hover:underline">Dashboard</a>
+        <a href="#" class="hover:underline">Who Has Paid</a>
+        <a href="#" class="hover:underline">Debt Solver</a>
+        <a href="#" class="hover:underline">Audit Logs</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <button class="px-3.5 py-1.5 text-xs font-medium border border-[#1a3300] text-[#1a3300] rounded-[6px] transition-transform">Log In</button>
+        <button class="px-4 py-1.5 text-xs font-medium bg-[#1a3300] text-[#fcfaf5] rounded-[6px] transition-transform flex items-center gap-1">
+          <span>Upload Bill</span> <span>→</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <div class="text-center max-w-3xl mx-auto space-y-4 pt-6">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#ffe95c] border border-[#1a3300] rounded-full text-xs font-medium text-[#1a3300]">
+        <span>⚡</span>
+        <span>Autonomous Roommate Expense Agent</span>
+      </div>
+      <h1 class="text-5xl md:text-6xl font-display font-extrabold text-[#1a3300] leading-none">
+        Split rent. Settle debts. <span class="bg-[#ffe95c] px-2 py-0.5 rounded-[4px]">Say Briefly.</span>
       </h1>
-      <p class="text-gray-400 mt-2">Cyber-Financial Glassmorphism UI Component Suite</p>
+      <p class="text-lg text-[#1a3300]/80 font-normal max-w-xl mx-auto">
+        Creative studio sketchbook feel with high-precision debt simplification and automated tone escalations.
+      </p>
     </div>
 
-    <!-- Live Component Mockups -->
+    <!-- Live Component Cards (Sticky Notes Rhythm) -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <!-- Dropzone Card -->
-      <div class="glass-panel p-6 space-y-4">
-        <h3 class="text-lg font-heading font-bold text-white flex items-center justify-between">
-          <span>Multimodal Ingestion</span>
-          <span class="text-xs font-mono px-2 py-0.5 bg-cyan-500/20 text-cyan-300 rounded">Gemini Vision</span>
-        </h3>
-        <div class="border-2 border-dashed border-cyan-500/30 rounded-xl p-6 text-center hover:border-cyan-400 transition-colors cursor-pointer bg-slate-900/40">
-          <div class="w-12 h-12 mx-auto rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400 mb-3">
-            📸
+      <!-- Multimodal Ingestion (Mint Sticky Note) -->
+      <div class="bg-[#d5f5c2] border border-[#1a3300] rounded-[12px] p-6 space-y-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-bold text-[#1a3300]">Multimodal Ingestion</h3>
+          <span class="text-xs font-mono px-2 py-0.5 bg-[#fcfaf5] border border-[#1a3300] rounded-full">Gemini Vision</span>
+        </div>
+        <div class="border-2 border-dashed border-[#1a3300]/40 rounded-[8px] p-6 text-center hover:border-[#1a3300] transition-colors cursor-pointer bg-[#fcfaf5]/60">
+          <div class="w-10 h-10 mx-auto rounded-full bg-[#ffe95c] border border-[#1a3300] flex items-center justify-center text-[#1a3300] mb-2 font-bold">
+            📷
           </div>
-          <p class="text-sm text-gray-200 font-medium">Drop bill photo or PDF here</p>
-          <p class="text-xs text-gray-500 mt-1">Supports Electricity, Rent, Wifi, Groceries</p>
+          <p class="text-sm font-semibold text-[#1a3300]">Drop bill image or PDF here</p>
+          <p class="text-xs text-[#1a3300]/70 mt-1">Electricity, Rent, Wifi, Groceries</p>
         </div>
         <div class="flex gap-2">
-          <button class="flex-1 py-1.5 px-3 text-xs font-mono bg-slate-800 hover:bg-slate-700 text-gray-300 rounded-lg border border-slate-700">⚡ Preset: Electricity</button>
-          <button class="flex-1 py-1.5 px-3 text-xs font-mono bg-slate-800 hover:bg-slate-700 text-gray-300 rounded-lg border border-slate-700">🌐 Preset: Wifi</button>
+          <button class="flex-1 py-1.5 px-3 text-xs font-mono bg-[#fcfaf5] text-[#1a3300] rounded-[6px] border border-[#1a3300] transition-transform">⚡ Electricity</button>
+          <button class="flex-1 py-1.5 px-3 text-xs font-mono bg-[#fcfaf5] text-[#1a3300] rounded-[6px] border border-[#1a3300] transition-transform">🌐 Wifi Bill</button>
         </div>
       </div>
 
-      <!-- Debt Simplifier Card -->
-      <div class="glass-panel p-6 space-y-4">
-        <h3 class="text-lg font-heading font-bold text-white flex items-center justify-between">
-          <span>Debt Simplification</span>
-          <span class="text-xs font-mono px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded">Min-Cash-Flow</span>
-        </h3>
-        <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800 space-y-3">
-          <div class="flex items-center justify-between text-xs text-gray-400">
-            <span>Raw Debts: <strong class="text-rose-400">6 transfers</strong></span>
-            <span>Optimized: <strong class="text-emerald-400">2 transfers</strong></span>
+      <!-- Debt Simplifier Card (Cream Paper Surface) -->
+      <div class="bg-[#fcfaf5] border border-[#1a3300] rounded-[12px] p-6 space-y-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-bold text-[#1a3300]">Debt Simplification</h3>
+          <span class="text-xs font-mono px-2 py-0.5 bg-[#a8e5e5] border border-[#1a3300] rounded-full">Min-Cash-Flow</span>
+        </div>
+        <div class="p-4 bg-[#fcfaf5] rounded-[8px] border border-[#b6b6b6] space-y-3">
+          <div class="flex items-center justify-between text-xs text-[#1a3300]/70">
+            <span>Raw: <strong>6 transfers</strong></span>
+            <span>Optimized: <strong>2 transfers</strong></span>
           </div>
-          <div class="p-3 bg-slate-900/80 rounded-lg border border-slate-700 flex items-center justify-between">
-            <span class="text-sm font-medium text-white">Priya ➔ Alex</span>
-            <span class="font-mono text-emerald-400 font-bold">₹1,450.00</span>
+          <div class="p-3 bg-[#d5f5c2] rounded-[6px] border border-[#1a3300] flex items-center justify-between">
+            <span class="text-sm font-medium text-[#1a3300]">Priya ➔ Alex</span>
+            <span class="font-mono font-bold text-[#1a3300]">₹1,450.00</span>
           </div>
-          <div class="p-3 bg-slate-900/80 rounded-lg border border-slate-700 flex items-center justify-between">
-            <span class="text-sm font-medium text-white">Rahul ➔ Alex</span>
-            <span class="font-mono text-emerald-400 font-bold">₹820.00</span>
+          <div class="p-3 bg-[#a8e5e5] rounded-[6px] border border-[#1a3300] flex items-center justify-between">
+            <span class="text-sm font-medium text-[#1a3300]">Rahul ➔ Alex</span>
+            <span class="font-mono font-bold text-[#1a3300]">₹820.00</span>
           </div>
         </div>
       </div>
 
-      <!-- Live Agent Stream -->
-      <div class="glass-panel p-6 space-y-4">
-        <h3 class="text-lg font-heading font-bold text-white flex items-center justify-between">
-          <span>Agent Activity Stream</span>
-          <span class="text-xs font-mono px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded">Autonomous</span>
-        </h3>
-        <div class="space-y-3 font-mono text-xs">
-          <div class="p-2.5 bg-slate-950/80 rounded-lg border border-slate-800 border-l-2 border-l-cyan-400">
-            <div class="text-[10px] text-gray-500">14:02:11 • Gemini Vision</div>
-            <div class="text-gray-200 mt-0.5">Parsed 'Airtel Broadband' (₹1,199.00). Split 4 ways.</div>
+      <!-- Live Agent Stream (Teal/Blush Sticky Note) -->
+      <div class="bg-[#a8e5e5] border border-[#1a3300] rounded-[12px] p-6 space-y-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-bold text-[#1a3300]">Agent Audit Stream</h3>
+          <span class="text-xs font-mono px-2 py-0.5 bg-[#fcfaf5] border border-[#1a3300] rounded-full">Autonomous</span>
+        </div>
+        <div class="space-y-2.5 font-mono text-xs">
+          <div class="p-2.5 bg-[#fcfaf5] rounded-[6px] border border-[#1a3300]">
+            <div class="text-[10px] text-[#1a3300]/60">14:02:11 • Gemini Vision</div>
+            <div class="text-[#1a3300] font-medium mt-0.5">Parsed 'Airtel Broadband' (₹1,199.00). Split 4 ways.</div>
           </div>
-          <div class="p-2.5 bg-slate-950/80 rounded-lg border border-slate-800 border-l-2 border-l-amber-400">
-            <div class="text-[10px] text-gray-500">14:15:00 • Cron Pulse</div>
-            <div class="text-amber-300 mt-0.5">Stage 3 Deadline Reminder dispatched to Rahul.</div>
+          <div class="p-2.5 bg-[#ffe95c] rounded-[6px] border border-[#1a3300]">
+            <div class="text-[10px] text-[#1a3300]/60">14:15:00 • Cron Pulse</div>
+            <div class="text-[#1a3300] font-medium mt-0.5">Stage 3 Deadline Reminder dispatched to Rahul.</div>
           </div>
-          <div class="p-2.5 bg-slate-950/80 rounded-lg border border-slate-800 border-l-2 border-l-emerald-400">
-            <div class="text-[10px] text-gray-500">14:21:45 • Webhook</div>
-            <div class="text-emerald-300 mt-0.5">Payment confirmed by Priya. Habit profile updated.</div>
+          <div class="p-2.5 bg-[#d5f5c2] rounded-[6px] border border-[#1a3300]">
+            <div class="text-[10px] text-[#1a3300]/60">14:21:45 • Webhook</div>
+            <div class="text-[#1a3300] font-medium mt-0.5">Payment confirmed by Priya. Habit profile updated.</div>
           </div>
         </div>
       </div>
