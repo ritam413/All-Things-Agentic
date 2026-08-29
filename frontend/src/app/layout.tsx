@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: 'Autonomous roommate expense splitting, multimodal receipt ingestion, UPI deep links, and Min-Cash-Flow debt simplification on Google Cloud.',
 };
 
+import { AuthProvider } from '../context/AuthContext';
+
 export default function RootLayout({
   children,
 }: {
@@ -22,8 +24,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-[#080C14] text-gray-100 antialiased selection:bg-cyan-500 selection:text-black">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
 }
+

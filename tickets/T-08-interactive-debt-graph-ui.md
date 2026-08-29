@@ -3,7 +3,7 @@
 - **Assignee**: **Dev 2** (Frontend & Multimodal UX Specialist)
 - **Domain**: `frontend/src/components/`
 - **Dependencies**: `T-04`, `T-05`
-- **Status**: Ready
+- **Status**: Completed
 
 ---
 
@@ -15,6 +15,6 @@ Build an interactive visualizer comparing raw mutual debts against optimized Min
 - `frontend/src/services/api.ts`
 
 ## Acceptance Criteria
-- [ ] Displays comparative summary metrics: Raw Transfers vs Optimized Transfers vs Total Volume.
-- [ ] Lists each simplified transfer with directional arrow (`Priya ➔ Alex`) and amount.
-- [ ] Provides direct "UPI Pay ↗" action button to trigger the payment modal.
+- [x] Displays comparative summary metrics: Raw Transfers vs Optimized Transfers vs Total Volume.
+- [x] Lists each simplified transfer with directional arrow (`Priya ➔ Alex`) and amount.
+- [x] Provides direct "UPI Pay ↗" action button to trigger the payment modal.

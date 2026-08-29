@@ -22,12 +22,16 @@ from shared.schema import (
     SplitShare,
     ParsedExpense,
     SplitRuleType,
+    EscalationStage,
     AgentActivityLog,
     ActivityEventType,
     DebtSimplificationResult,
     RawDebt,
     PaymentIntent,
     SharePaymentStatus,
+    HouseholdSettlementStatus,
+    MemberPaymentSummary,
+    BillShareStatusSummary,
 )
 from backend.app.agent.tools.receipt_parser import parse_receipt
 from backend.app.agent.tools.split_calculator import calculate_shares
@@ -355,6 +359,139 @@ class RoomieOpsAgent:
         )
 
         return result
+
+    def get_household_settlement_status(self, household_id: str = DEFAULT_HOUSEHOLD_ID) -> HouseholdSettlementStatus:
+        """
+        Aggregates real-time household settlement status:
+        who has paid, who is left to pay, total paid vs pending volumes,
+        and highest escalation stages.
+        """
+        hh = self.storage.get_household(household_id)
+        if not hh:
+            raise ValueError(f"Household '{household_id}' not found")
+
+        expenses = self.storage.get_expenses(household_id)
+
+        # Priority mapping for escalation stages (higher index = higher urgency)
+        stage_priority = {
+            EscalationStage.STAGE_1_ANNOUNCE: 1,
+            EscalationStage.STAGE_2_NUDGE: 2,
+            EscalationStage.STAGE_3_DEADLINE: 3,
+            EscalationStage.STAGE_4_OVERDUE: 4,
+        }
+
+        # Per-roommate metrics accumulator
+        member_stats: Dict[str, Dict[str, Any]] = {}
+        for rm in hh.roommates:
+            member_stats[rm.id] = {
+                "roommate_id": rm.id,
+                "roommate_name": rm.name,
+                "upi_vpa": rm.upi_vpa,
+                "total_owed": 0.0,
+                "total_paid": 0.0,
+                "total_pending": 0.0,
+                "pending_shares_count": 0,
+                "highest_stage": None,
+                "highest_priority": 0,
+            }
+
+        bills_summary: List[BillShareStatusSummary] = []
+        total_billed = 0.0
+
+        for exp in expenses:
+            total_billed += exp.total_amount
+            paid_count = 0
+            unpaid_count = 0
+
+            for share in exp.shares:
+                if share.roommate_id in member_stats:
+                    stats = member_stats[share.roommate_id]
+                    stats["total_owed"] = round(stats["total_owed"] + share.amount_owed, 2)
+
+                    if share.status == SharePaymentStatus.PAID:
+                        stats["total_paid"] = round(stats["total_paid"] + share.amount_owed, 2)
+                        paid_count += 1
+                    else:
+                        stats["total_pending"] = round(stats["total_pending"] + share.amount_owed, 2)
+                        stats["pending_shares_count"] += 1
+                        unpaid_count += 1
+
+                        prio = stage_priority.get(share.escalation_stage, 0)
+                        if prio > stats["highest_priority"]:
+                            stats["highest_priority"] = prio
+                            stats["highest_stage"] = share.escalation_stage
+                else:
+                    if share.status == SharePaymentStatus.PAID:
+                        paid_count += 1
+                    else:
+                        unpaid_count += 1
+
+            is_settled = (unpaid_count == 0) and len(exp.shares) > 0
+            bills_summary.append(
+                BillShareStatusSummary(
+                    expense_id=exp.id,
+                    vendor=exp.vendor,
+                    category=exp.category,
+                    total_amount=round(exp.total_amount, 2),
+                    due_date=exp.due_date,
+                    payer_id=exp.payer_id,
+                    payer_name=exp.payer_name,
+                    paid_count=paid_count,
+                    unpaid_count=unpaid_count,
+                    is_fully_settled=is_settled,
+                    shares=exp.shares,
+                )
+            )
+
+        paid_members: List[MemberPaymentSummary] = []
+        pending_members: List[MemberPaymentSummary] = []
+        total_paid_all = 0.0
+        total_pending_all = 0.0
+
+        for rm_id, stats in member_stats.items():
+            total_paid_all += stats["total_paid"]
+            total_pending_all += stats["total_pending"]
+            is_cleared = (stats["pending_shares_count"] == 0 or stats["total_pending"] <= 0.001)
+
+            summary = MemberPaymentSummary(
+                roommate_id=stats["roommate_id"],
+                roommate_name=stats["roommate_name"],
+                total_owed=round(stats["total_owed"], 2),
+                total_paid=round(stats["total_paid"], 2),
+                total_pending=round(stats["total_pending"], 2),
+                is_cleared=is_cleared,
+                upi_vpa=stats["upi_vpa"],
+                pending_shares_count=stats["pending_shares_count"],
+                highest_escalation_stage=stats["highest_stage"],
+            )
+
+            if is_cleared:
+                paid_members.append(summary)
+            else:
+                pending_members.append(summary)
+
+        # Sort pending members by total pending amount descending
+        pending_members.sort(key=lambda m: m.total_pending, reverse=True)
+
+        total_billed = round(total_billed, 2)
+        total_paid_all = round(total_paid_all, 2)
+        total_pending_all = round(total_pending_all, 2)
+
+        if total_billed > 0:
+            cleared_pct = round((total_paid_all / total_billed) * 100.0, 1)
+        else:
+            cleared_pct = 100.0
+
+        return HouseholdSettlementStatus(
+            household_id=household_id,
+            total_billed=total_billed,
+            total_paid=total_paid_all,
+            total_pending=total_pending_all,
+            cleared_percentage=cleared_pct,
+            paid_members=paid_members,
+            pending_members=pending_members,
+            bills_summary=bills_summary,
+        )
 
 
 # Global Singleton Agent Instance

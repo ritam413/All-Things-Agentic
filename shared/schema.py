@@ -203,3 +203,109 @@ class HabitProfile(BaseModel):
     total_bills_settled: int
     consecutive_late_count: int
     habit_badge: HabitBadge
+
+
+# --- User & Auth ---
+
+class User(BaseModel):
+    id: str
+    name: str
+    email: str
+    phone: Optional[str] = ""
+    upi_vpa: Optional[str] = ""
+    avatar_url: Optional[str] = None
+    household_ids: List[str] = Field(default_factory=list)
+    created_at: Optional[str] = None
+
+
+class AuthToken(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: User
+
+
+class UserRegisterRequest(BaseModel):
+    name: str
+    email: str
+    password: str
+    phone: Optional[str] = ""
+    upi_vpa: Optional[str] = ""
+
+
+class UserLoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+class UserProfileUpdateRequest(BaseModel):
+    name: Optional[str] = None
+    phone: Optional[str] = None
+    upi_vpa: Optional[str] = None
+    avatar_url: Optional[str] = None
+
+
+# --- Household Management Requests ---
+
+class CreateHouseholdRequest(BaseModel):
+    name: str
+    default_currency: str = "INR"
+    default_split_rule: SplitRuleType = SplitRuleType.EQUAL
+    creator_user_id: Optional[str] = None
+
+
+class AddMemberRequest(BaseModel):
+    name: str
+    email: str
+    phone: Optional[str] = ""
+    upi_vpa: str
+    room_sq_ft: Optional[float] = 250.0
+    custom_split_pct: Optional[float] = None
+
+
+class UpdateMemberRequest(BaseModel):
+    name: Optional[str] = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    upi_vpa: Optional[str] = None
+    room_sq_ft: Optional[float] = None
+    custom_split_pct: Optional[float] = None
+
+
+# --- Settlement Status & "Who Has Paid vs Who Is Left" ---
+
+class MemberPaymentSummary(BaseModel):
+    roommate_id: str
+    roommate_name: str
+    total_owed: float
+    total_paid: float
+    total_pending: float
+    is_cleared: bool
+    upi_vpa: str
+    pending_shares_count: int
+    highest_escalation_stage: Optional[EscalationStage] = None
+
+
+class BillShareStatusSummary(BaseModel):
+    expense_id: str
+    vendor: str
+    category: ExpenseCategory
+    total_amount: float
+    due_date: str
+    payer_id: str
+    payer_name: str
+    paid_count: int
+    unpaid_count: int
+    is_fully_settled: bool
+    shares: List[SplitShare] = []
+
+
+class HouseholdSettlementStatus(BaseModel):
+    household_id: str
+    total_billed: float
+    total_paid: float
+    total_pending: float
+    cleared_percentage: float
+    paid_members: List[MemberPaymentSummary] = []
+    pending_members: List[MemberPaymentSummary] = []
+    bills_summary: List[BillShareStatusSummary] = []
+

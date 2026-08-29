@@ -3,7 +3,7 @@
 - **Assignee**: **Dev 2** (Frontend & Multimodal UX Specialist)
 - **Domain**: `frontend/`
 - **Dependencies**: `T-01`
-- **Status**: Ready
+- **Status**: Completed
 
 ---
 
@@ -18,6 +18,6 @@ Establish the Next.js 14 App Router project with TailwindCSS and Cyber-Financial
 - `frontend/src/app/page.tsx`
 
 ## Acceptance Criteria
-- [ ] Dark-mode obsidian theme (`#080C14`) with glassmorphism card styling (`.glass-card`).
-- [ ] Responsive 3-column command center layout.
-- [ ] Header displaying brand, household title, and live agent pulse status.
+- [x] Dark-mode obsidian theme (`#080C14`) with glassmorphism card styling (`.glass-card`).
+- [x] Responsive 3-column command center layout.
+- [x] Header displaying brand, household title, and live agent pulse status.

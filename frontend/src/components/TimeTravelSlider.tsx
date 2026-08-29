@@ -5,17 +5,18 @@ import { FastForward, Clock, Calendar } from 'lucide-react';
 import { simulateTimeTravel } from '../services/api';
 
 interface Props {
+  householdId?: string;
   onTimeTravel: () => void;
 }
 
-export const TimeTravelSlider: React.FC<Props> = ({ onTimeTravel }) => {
+export const TimeTravelSlider: React.FC<Props> = ({ householdId, onTimeTravel }) => {
   const [loading, setLoading] = useState(false);
   const [days, setDays] = useState(3);
 
   const handleSimulate = async (daysForward: number) => {
     setLoading(true);
     try {
-      await simulateTimeTravel(daysForward);
+      await simulateTimeTravel(daysForward, householdId);
       onTimeTravel();
     } catch (err) {
       console.error(err);

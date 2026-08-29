@@ -3,7 +3,7 @@
 - **Assignee**: **Dev 2** (Frontend & Multimodal UX Specialist)
 - **Domain**: `frontend/src/components/`
 - **Dependencies**: `T-10`, `T-05`
-- **Status**: Ready
+- **Status**: Completed
 
 ---
 
@@ -15,6 +15,6 @@ Build the real-time visual audit feed displaying background agent decisions, sch
 - `frontend/src/services/api.ts`
 
 ## Acceptance Criteria
-- [ ] Displays chronological audit log entries with distinct color-coded severity borders (Cyan = Info, Amber = Warning, Rose = Alert, Emerald = Success).
-- [ ] Auto-polls updates from `/api/agent/activity`.
-- [ ] Shows exact human-readable timestamps and event descriptions.
+- [x] Displays chronological audit log entries with distinct color-coded severity borders (Cyan = Info, Amber = Warning, Rose = Alert, Emerald = Success).
+- [x] Auto-polls updates from `/api/agent/activity`.
+- [x] Shows exact human-readable timestamps and event descriptions.

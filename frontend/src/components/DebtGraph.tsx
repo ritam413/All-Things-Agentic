@@ -6,17 +6,18 @@ import { DebtSimplificationResult, Settlement } from '../../../shared/types';
 import { fetchSimplifiedDebts } from '../services/api';
 
 interface Props {
+  householdId?: string;
   onPaySettlement?: (settlement: Settlement) => void;
 }
 
-export const DebtGraph: React.FC<Props> = ({ onPaySettlement }) => {
+export const DebtGraph: React.FC<Props> = ({ householdId, onPaySettlement }) => {
   const [data, setData] = useState<DebtSimplificationResult | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleCompute = async () => {
     setLoading(true);
     try {
-      const res = await fetchSimplifiedDebts();
+      const res = await fetchSimplifiedDebts(householdId);
       setData(res);
     } catch (err) {
       console.error(err);

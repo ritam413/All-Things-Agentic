@@ -6,6 +6,7 @@
 import {
   DEFAULT_HOUSEHOLD_ID,
   Household,
+  Roommate,
   Expense,
   ParsedExpense,
   DebtSimplificationResult,
@@ -14,9 +15,75 @@ import {
   SplitRuleType,
   ConfirmPaymentResponse,
   ConfirmSettlementRequest,
+  CreateHouseholdRequest,
+  AddMemberRequest,
+  UpdateMemberRequest,
+  User,
+  AuthToken,
+  UserRegisterRequest,
+  UserLoginRequest,
+  UserProfileUpdateRequest,
+  HouseholdSettlementStatus,
 } from '../../../shared/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
+export async function fetchHouseholds(userId?: string, token?: string): Promise<Household[]> {
+  const url = userId
+    ? `${API_BASE_URL}/api/households?user_id=${encodeURIComponent(userId)}`
+    : `${API_BASE_URL}/api/households`;
+  const headers: Record<string, string> = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const res = await fetch(url, { headers });
+  if (!res.ok) throw new Error('Failed to fetch households');
+  return res.json();
+}
+
+export async function createHousehold(req: CreateHouseholdRequest, token?: string): Promise<Household> {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  const res = await fetch(`${API_BASE_URL}/api/households`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(req),
+  });
+  if (!res.ok) throw new Error('Failed to create household');
+  return res.json();
+}
+
+export async function addHouseholdMember(householdId: string, req: AddMemberRequest): Promise<Roommate> {
+  const res = await fetch(`${API_BASE_URL}/api/households/${householdId}/members`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(req),
+  });
+  if (!res.ok) throw new Error('Failed to add member to household');
+  return res.json();
+}
+
+export async function updateHouseholdMember(
+  householdId: string,
+  roommateId: string,
+  req: UpdateMemberRequest
+): Promise<Roommate> {
+  const res = await fetch(`${API_BASE_URL}/api/households/${householdId}/members/${roommateId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(req),
+  });
+  if (!res.ok) throw new Error('Failed to update household member');
+  return res.json();
+}
+
+export async function removeHouseholdMember(householdId: string, roommateId: string): Promise<{ status: string; message: string }> {
+  const res = await fetch(`${API_BASE_URL}/api/households/${householdId}/members/${roommateId}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('Failed to remove member from household');
+  return res.json();
+}
 
 export async function fetchHousehold(householdId = DEFAULT_HOUSEHOLD_ID): Promise<Household> {
   const res = await fetch(`${API_BASE_URL}/api/households/${householdId}`);
@@ -30,9 +97,10 @@ export async function fetchExpenses(householdId = DEFAULT_HOUSEHOLD_ID): Promise
   return res.json();
 }
 
-export async function parseReceiptFile(file: File): Promise<ParsedExpense> {
+export async function parseReceiptFile(file: File, householdId = DEFAULT_HOUSEHOLD_ID): Promise<ParsedExpense> {
   const formData = new FormData();
   formData.append('file', file);
+  formData.append('household_id', householdId);
 
   const res = await fetch(`${API_BASE_URL}/api/expenses/parse`, {
     method: 'POST',
@@ -42,13 +110,17 @@ export async function parseReceiptFile(file: File): Promise<ParsedExpense> {
   return res.json();
 }
 
-export async function ingestPresetBill(presetType: string, splitRule: SplitRuleType = 'EQUAL'): Promise<Expense> {
+export async function ingestPresetBill(
+  presetType: string,
+  splitRule: SplitRuleType = 'EQUAL',
+  householdId = DEFAULT_HOUSEHOLD_ID
+): Promise<Expense> {
   const res = await fetch(`${API_BASE_URL}/api/expenses/preset`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       preset_type: presetType,
-      household_id: DEFAULT_HOUSEHOLD_ID,
+      household_id: householdId,
       split_rule: splitRule,
     }),
   });
@@ -128,3 +200,79 @@ export async function fetchAnalytics(householdId = DEFAULT_HOUSEHOLD_ID): Promis
   if (!res.ok) throw new Error('Failed to fetch analytics');
   return res.json();
 }
+
+export async function fetchSettlementStatus(householdId = DEFAULT_HOUSEHOLD_ID): Promise<HouseholdSettlementStatus> {
+  const res = await fetch(`${API_BASE_URL}/api/households/${householdId}/settlement-status`);
+  if (!res.ok) throw new Error('Failed to fetch household settlement status');
+  return res.json();
+}
+
+// --- Auth & User Profile API ---
+
+export async function fetchDemoPersonas(): Promise<User[]> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/personas`);
+  if (!res.ok) throw new Error('Failed to fetch demo personas');
+  return res.json();
+}
+
+export async function switchDemoPersona(personaId: string): Promise<AuthToken> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/switch-persona/${encodeURIComponent(personaId)}`, {
+    method: 'POST',
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to switch persona' }));
+    throw new Error(err.detail || 'Failed to switch persona');
+  }
+  return res.json();
+}
+
+export async function registerUser(req: UserRegisterRequest): Promise<AuthToken> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(req),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Registration failed' }));
+    throw new Error(err.detail || 'Registration failed');
+  }
+  return res.json();
+}
+
+export async function loginUser(req: UserLoginRequest): Promise<AuthToken> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(req),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Invalid email or password' }));
+    throw new Error(err.detail || 'Invalid email or password');
+  }
+  return res.json();
+}
+
+export async function fetchCurrentUser(token: string): Promise<User> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error('Failed to fetch current user');
+  return res.json();
+}
+
+export async function updateUserProfile(req: UserProfileUpdateRequest, token: string): Promise<User> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/profile`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(req),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to update profile' }));
+    throw new Error(err.detail || 'Failed to update profile');
+  }
+  return res.json();
+}
+
