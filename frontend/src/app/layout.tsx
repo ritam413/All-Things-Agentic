@@ -11,6 +11,24 @@ export const metadata: Metadata = {
     shortcut: '/favicon.svg',
     apple: '/favicon.svg',
   },
+  openGraph: {
+    title: 'RoomieOps AI — Autonomous Roommate Rent & Expense Ops Agent',
+    description: 'Autonomous roommate expense splitting, multimodal receipt ingestion, UPI deep links, and Min-Cash-Flow debt simplification on Google Cloud.',
+    images: [
+      {
+        url: '/thumbnail.jpg',
+        width: 1280,
+        height: 720,
+        alt: 'RoomieOps AI — Hackathon Thumbnail',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'RoomieOps AI — Autonomous Roommate Rent & Expense Ops Agent',
+    description: 'Autonomous roommate expense splitting, multimodal receipt ingestion, UPI deep links, and Min-Cash-Flow debt simplification on Google Cloud.',
+    images: ['/thumbnail.jpg'],
+  },
 };
 
 export default function RootLayout({

@@ -5,6 +5,38 @@
 
 ---
 
+## 🛠️ Technology Stack & Engineering Architecture
+
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python_3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Next.js 14](https://img.shields.io/badge/Next.js_14-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Google Gemini](https://img.shields.io/badge/Gemini_3.5_Flash-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)
+![Google Cloud Run](https://img.shields.io/badge/Google_Cloud_Run-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white)
+![Google Firestore](https://img.shields.io/badge/Cloud_Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Pytest](https://img.shields.io/badge/Pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
+
+</div>
+
+<br/>
+
+| 🤖 AI & Multimodal Core | 🧠 Autonomous Agent Framework |
+| :--- | :--- |
+| <ul><li>**Gemini 3.5 / 2.5 Flash** (Vision & structured extraction)</li><li>**Gemini 3.5 Pro** (Multi-party reasoning & split policies)</li><li>**Few-Shot Pydantic Schemas** (Deterministic JSON outputs)</li><li>**Contextual Tone Engine** (Adaptive 4-stage escalations)</li></ul> | <ul><li>**Google Agent Development Kit (ADK)**</li><li>**Google GenAI SDK (`google-genai`)**</li><li>**Antigravity SDK & Agentic Core**</li><li>**Autonomous Tool Loop** (`parse`, `split`, `simplify`, `link`)</li></ul> |
+
+| ⚡ Backend & Gateway Layer | 💻 Frontend & Experience Layer |
+| :--- | :--- |
+| <ul><li>**Python 3.11 + FastAPI** (Async REST API controllers)</li><li>**Pydantic v2 Models** (Single-source-of-truth contract)</li><li>**Server-Sent Events (SSE)** (Real-time decision streaming)</li><li>**Dual-Mode Storage Adapter** (Firestore + Local Sandbox)</li></ul> | <ul><li>**Next.js 14 (App Router)** & React 18</li><li>**TypeScript 5.x** (Strict interface safety)</li><li>**Cyber-Financial Glassmorphism** (Custom CSS design system)</li><li>**Interactive Debt Graph Visualizer** (Pure SVG bipartite mesh)</li></ul> |
+
+| ☁️ Google Cloud Platform | 📐 Mathematical Solvers & Security |
+| :--- | :--- |
+| <ul><li>**Google Cloud Run** (Stateless serverless container compute)</li><li>**Google Cloud Firestore** (Behavioral memory bank & logs)</li><li>**Google Cloud Scheduler** (Hourly background cron trigger)</li><li>**Google Cloud Pub/Sub** (Push queue for autonomous pulses)</li></ul> | <ul><li>**Greedy Min-Cash-Flow Algorithm** ($\binom{N}{2} \rightarrow \le N-1$)</li><li>**Strict Penny Conservation Invariant** ($\sum \text{Shares} \equiv \text{Total}$)</li><li>**Dynamic `upi://pay` Mobile Deep Links**</li><li>**Client-side RFC QR-Code Generator**</li></ul> |
+
+---
+
+
 ## 🌟 Executive Summary
 
 Every month, shared households and roommates go through the same awkward, time-consuming administrative cycle:
@@ -24,6 +56,7 @@ Every month, shared households and roommates go through the same awkward, time-c
 - 🧠 **Behavioral Memory Bank**: Persists roommate payment velocity and habit badges (`⚡ Rapid Settler`, `⚠️ Chronic Late Payer`) in **Google Cloud Firestore**.
 
 ---
+
 
 ## 🏛️ System Architecture & Google Cloud Topology
 
@@ -197,10 +230,42 @@ Frontend Web Dashboard will be live at: `http://localhost:3000`.
 
 ---
 
-### Step 4: Run Automated Tests
+### Step 4: Run Reproducible Automated Tests
 ```bash
 cd backend
 pytest tests/ -v
+```
+
+---
+
+## 🧪 Reproducible Testing & Invariant Verification Suite
+
+RoomieOps AI is engineered with strict **Test-Driven Development (TDD)** and automated mathematical verification. **All tests run 100% locally and offline in sandbox mode with zero external API key or cloud credential dependencies.**
+
+### 🔬 Test Coverage & Verification Matrix
+
+| Test Suite | File Path | What It Mathematically & Operationally Verifies |
+|---|---|---|
+| **Split Share Invariants** | [`tests/test_split_calculator.py`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/backend/tests/test_split_calculator.py) | Strict penny conservation ($\sum \text{Shares} \equiv \text{Total}$) across Equal, SqFt, & Custom % splits. |
+| **Debt Simplification Solver** | [`tests/test_debt_simplifier.py`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/backend/tests/test_debt_simplifier.py) | Greedy Min-Cash-Flow graph solver: reduces $\binom{N}{2}$ debts to $\le N - 1$ transfers with zero net cash balance drift. |
+| **Receipt Vision Extractor** | [`tests/test_receipt_parser.py`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/backend/tests/test_receipt_parser.py) | Pydantic schema validation, discount subtotals, tax extraction, and mock fallback execution. |
+| **Autonomous Tone Escalation** | [`tests/test_escalation_engine.py`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/backend/tests/test_escalation_engine.py) | 4-stage tone progression (`Friendly` $\rightarrow$ `Nudge` $\rightarrow$ `Deadline` $\rightarrow$ `Overdue Flag`) across simulated time deltas. |
+| **Payment Deep Links & QR** | [`tests/test_payment_links.py`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/backend/tests/test_payment_links.py) | `upi://pay` URI string RFC compliance, payee VPA validation, and scannable QR payload integrity. |
+| **Shared API Schema Contracts** | [`tests/test_shared_contracts.py`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/backend/tests/test_shared_contracts.py) | Cross-layer schema synchronization between Python Pydantic models and TypeScript interfaces. |
+| **FastAPI REST Endpoints** | [`tests/test_api_routes.py`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/backend/tests/test_api_routes.py) | End-to-end HTTP route contracts, time-travel pulse triggers, and error boundary handling. |
+| **Settlement & Payment Status** | [`tests/test_settlement_status.py`](file:///c:/CCodes_WebDevelopment/hckthon/roommate%20ops%20all%20thing%20agetic/backend/tests/test_settlement_status.py) | Settlement state machine transitions from `PENDING` $\rightarrow$ `SETTLED` $\rightarrow$ `OVERDUE`. |
+
+### ⚡ Running Targeted Subsystem Tests
+
+```bash
+# Test only the Min-Cash-Flow graph debt solver
+pytest backend/tests/test_debt_simplifier.py -v
+
+# Test only the 4-Stage Autonomous Tone Escalation Engine
+pytest backend/tests/test_escalation_engine.py -v
+
+# Test only the Split Calculation & Penny Conservation Math
+pytest backend/tests/test_split_calculator.py -v
 ```
 
 ---

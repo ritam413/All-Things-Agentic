@@ -44,8 +44,11 @@ import {
   ChevronDown,
   UserPlus,
   ArrowRight,
+  ArrowDown,
   Receipt,
   FileSpreadsheet,
+  Zap,
+  Bot,
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -106,9 +109,18 @@ export default function DashboardPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#fcfaf5] text-[#1a3300] p-4 sm:p-6 lg:p-10 max-w-[1200px] mx-auto space-y-10 font-sans">
+    <main className="min-h-screen bg-[#fcfaf5] text-[#1a3300] pt-1.5 sm:pt-2 pb-8 px-4 sm:px-6 lg:px-8 max-w-[1240px] mx-auto space-y-5 sm:space-y-6 font-sans relative">
+      {/* 0. Accessible "Skip to Main Content" Link (Keyboard Focus & Screen Reader + Emil Kowalski Polish) */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-1/2 focus:-translate-x-1/2 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#ffe95c] focus:text-[#1a3300] focus:border-2 focus:border-[#1a3300] focus:rounded-[8px] focus:shadow-[0_10px_25px_rgba(26,51,0,0.2)] focus:font-bold focus:text-xs focus:font-mono focus:flex focus:items-center focus:gap-2 focus:outline-none transition-transform active:scale-[0.97]"
+      >
+        <ArrowDown className="w-4 h-4 text-[#1a3300]" />
+        <span>Skip to Main Content (Expenses & Ledger)</span>
+      </a>
+
       {/* 1. Floating Pill Top Navigation Bar (Animated Stagger 1) */}
-      <header className="bg-[#fcfaf5] border border-[#b6b6b6] rounded-[16px] p-3 sm:px-6 sm:py-3.5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)] animate-text-appear-1">
+      <header className="bg-[#fcfaf5] border border-[#b6b6b6] rounded-[16px] p-3 sm:px-6 sm:py-3 flex flex-col md:flex-row justify-between items-start md:items-center gap-3.5 shadow-[0_1px_2px_rgba(0,0,0,0.05)] animate-text-appear-1">
         {/* Logo Lockup */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-[#ffe95c] rounded-[6px] border border-[#1a3300] flex items-center justify-center font-bold text-[#1a3300] text-base shadow-sm hover:rotate-3 transition-transform">
@@ -129,6 +141,16 @@ export default function DashboardPage() {
 
         {/* Right Navigation & Controls */}
         <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-start md:justify-end">
+          {/* Skip to Main Content Header Button */}
+          <a
+            href="#main-content"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#fcfaf5] hover:bg-[#ffe95c] border border-[#b6b6b6] hover:border-[#1a3300] text-[#1a3300] text-xs font-semibold rounded-[6px] transition-colors active:scale-[0.97] shadow-sm group"
+            title="Skip directly to Expenses, Debt Graph & Activity Stream"
+          >
+            <ArrowDown className="w-3.5 h-3.5 text-[#1a3300] group-hover:translate-y-0.5 transition-transform" />
+            <span>Skip to Main Content</span>
+          </a>
+
           {/* Active Household Switcher Pill */}
           <button
             onClick={() => setIsGroupModalOpen(true)}
@@ -177,16 +199,16 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      {/* 2. Hero Section: Smooth Staggered Load Animations */}
-      <section className="text-center max-w-3xl mx-auto space-y-4 pt-2 sm:pt-4">
+      {/* 2. Hero Section: Display Headline & Interactive Agency Command Center */}
+      <section className="text-center max-w-4xl mx-auto space-y-3.5 sm:space-y-4 pt-0 sm:pt-1">
         {/* Eyebrow Tagline Badge (Stagger 2) */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#ffe95c] border border-[#1a3300] rounded-[6px] text-xs font-medium text-[#1a3300] animate-text-appear-2">
-          <Sparkles className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#ffe95c] border border-[#1a3300] rounded-full text-xs font-semibold text-[#1a3300] animate-text-appear-2 shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-[#1a3300] animate-pulse" />
           <span>Google Agentic Hackathon 2026 • The Taskmaster Track</span>
         </div>
 
         {/* Display Headline with Kinetic Words & Marker Wash (Stagger 3) */}
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#1a3300] tracking-[0.04em] leading-[1.1] animate-text-appear-3 select-none">
+        <h1 className="text-5.5xl sm:text-6.5xl md:text-7.5xl lg:text-[5rem] font-display font-extrabold text-[#1a3300] tracking-[0.02em] leading-[1.06] animate-text-appear-3 select-none">
           <span className="headline-word hover:text-[#2d5703] transition-colors mr-2 sm:mr-3">Split expenses.</span>
           <span className="headline-word hover:text-[#2d5703] transition-colors mr-2 sm:mr-3">Settle debts.</span>
           <span className="headline-sticker animate-marker-wash">
@@ -194,18 +216,78 @@ export default function DashboardPage() {
           </span>
         </h1>
 
-        {/* Hero Subhead Paragraph (Stagger 4) */}
-        <p className="text-base sm:text-lg text-[#1a3300]/80 font-normal leading-relaxed max-w-[620px] mx-auto animate-text-appear-4">
-          Autonomous background operator that extracts bill line items, calculates weighted shares, and resolves household IOUs through zero-custody UPI deep links.
+        {/* Hero Subhead Paragraph (Stagger 4 - 3rd Text) */}
+        <p className="text-base sm:text-lg md:text-xl text-[#1a3300]/80 font-normal leading-relaxed max-w-[680px] mx-auto animate-text-appear-4">
+          Autonomous background operator that extracts bill line items with Gemini Vision, computes minimal pairwise transfers, and orchestrates unattended tone escalations via zero-custody UPI deep links.
         </p>
 
-        {/* Backed-by & Platform Credibility Strip (Stagger 5) */}
-        <div className="flex items-center justify-center gap-4 sm:gap-6 pt-2 text-xs font-mono text-[#b6b6b6] flex-wrap animate-text-appear-5">
-          <span className="uppercase text-[11px] font-semibold text-[#1a3300]/60">Powered by:</span>
-          <span className="px-2 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] rounded-[4px] text-[#1a3300] font-medium">Gemini Vision AI</span>
-          <span className="px-2 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] rounded-[4px] text-[#1a3300] font-medium">Google Cloud Run</span>
-          <span className="px-2 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] rounded-[4px] text-[#1a3300] font-medium">Min-Cash-Flow Graph</span>
-          <span className="px-2 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] rounded-[4px] text-[#1a3300] font-medium">UPI Direct Links</span>
+        {/* Backed-by & Platform Credibility Strip (Positioned directly under 3rd text) */}
+        <div className="flex items-center justify-center gap-2.5 sm:gap-4 pt-1 text-xs font-mono text-[#b6b6b6] flex-wrap animate-text-appear-4">
+          <span className="uppercase text-[11px] font-semibold text-[#1a3300]/70">POWERED BY:</span>
+          <span className="px-2.5 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] hover:border-[#1a3300] rounded-[4px] text-[#1a3300] font-medium transition-colors">Gemini 3.5 Vision AI</span>
+          <span className="px-2.5 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] hover:border-[#1a3300] rounded-[4px] text-[#1a3300] font-medium transition-colors">Google Cloud Run</span>
+          <span className="px-2.5 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] hover:border-[#1a3300] rounded-[4px] text-[#1a3300] font-medium transition-colors">Min-Cash-Flow Graph</span>
+          <span className="px-2.5 py-0.5 bg-[#fcfaf5] border border-[#b6b6b6] hover:border-[#1a3300] rounded-[4px] text-[#1a3300] font-medium transition-colors">UPI Direct Links</span>
+        </div>
+
+        {/* Hero Interactive CTAs & Quick Actions */}
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-1.5 animate-text-appear-5">
+          <a
+            href="#main-content"
+            className="px-5 py-2.5 bg-[#1a3300] hover:bg-[#2d5703] text-[#fcfaf5] font-semibold text-sm rounded-[8px] transition-all active:scale-[0.97] flex items-center gap-2 shadow-[0_2px_8px_rgba(26,51,0,0.18)]"
+          >
+            <Zap className="w-4 h-4 text-[#ffe95c]" />
+            <span>Ingest Bill / Receipt</span>
+          </a>
+          <a
+            href="#main-content"
+            className="px-5 py-2.5 bg-[#ffe95c] hover:bg-[#ffed6e] text-[#1a3300] border border-[#1a3300] font-semibold text-sm rounded-[8px] transition-all active:scale-[0.97] flex items-center gap-2 shadow-sm"
+          >
+            <span>Explore Debt Graph</span>
+            <ArrowRight className="w-4 h-4" />
+          </a>
+          <a
+            href="#time-travel-simulator"
+            className="px-4 py-2.5 bg-[#fcfaf5] hover:bg-[#1a3300]/5 text-[#1a3300] border border-[#b6b6b6] hover:border-[#1a3300] font-mono text-xs font-semibold rounded-[8px] transition-all active:scale-[0.97] flex items-center gap-1.5"
+          >
+            <span>Simulate Due Date ⏱️</span>
+          </a>
+        </div>
+
+        {/* Hero Live Feature Sticky Notes (Say Briefly Sketchbook Elements) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2 max-w-3xl mx-auto text-left animate-text-appear-5">
+          {/* Sticky Note 1 */}
+          <div className="hero-feature-pill p-3.5 bg-[#d5f5c2] border border-[#1a3300] rounded-[8px] shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+            <div className="flex items-center gap-2 text-xs font-bold text-[#1a3300]">
+              <Bot className="w-3.5 h-3.5 text-[#1a3300]" />
+              <span>Unattended Cron Loop</span>
+            </div>
+            <p className="text-[11px] text-[#1a3300]/70 font-mono mt-1 leading-tight">
+              4-stage tone escalation engine nudges flatmates as due dates near.
+            </p>
+          </div>
+
+          {/* Sticky Note 2 */}
+          <div className="hero-feature-pill p-3.5 bg-[#ffe95c] border border-[#1a3300] rounded-[8px] shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+            <div className="flex items-center gap-2 text-xs font-bold text-[#1a3300]">
+              <Zap className="w-3.5 h-3.5 text-[#1a3300]" />
+              <span>Min-Cash-Flow Solver</span>
+            </div>
+            <p className="text-[11px] text-[#1a3300]/70 font-mono mt-1 leading-tight">
+              Greedy bipartite graph reduction compresses pairwise circular debts.
+            </p>
+          </div>
+
+          {/* Sticky Note 3 */}
+          <div className="hero-feature-pill p-3.5 bg-[#a8e5e5] border border-[#1a3300] rounded-[8px] shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+            <div className="flex items-center gap-2 text-xs font-bold text-[#1a3300]">
+              <Receipt className="w-3.5 h-3.5 text-[#1a3300]" />
+              <span>Multimodal Vision AI</span>
+            </div>
+            <p className="text-[11px] text-[#1a3300]/70 font-mono mt-1 leading-tight">
+              Gemini extracts itemized totals & generates zero-custody UPI deep links.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -238,16 +320,14 @@ export default function DashboardPage() {
                     });
                   }}
                   disabled={authLoading}
-                  className={`px-3 py-1.5 rounded-[6px] font-mono text-xs transition-transform active:scale-[0.97] flex items-center gap-2 ${
-                    isActive
+                  className={`px-3 py-1.5 rounded-[6px] font-mono text-xs transition-transform active:scale-[0.97] flex items-center gap-2 ${isActive
                       ? 'bg-[#1a3300] text-[#fcfaf5] font-bold shadow-sm'
                       : 'bg-[#fcfaf5] text-[#1a3300] border border-[#b6b6b6] hover:border-[#1a3300]'
-                  }`}
+                    }`}
                 >
                   <div
-                    className={`w-2 h-2 rounded-full ${
-                      isActive ? 'bg-[#ffe95c]' : 'bg-[#b6b6b6]'
-                    }`}
+                    className={`w-2 h-2 rounded-full ${isActive ? 'bg-[#ffe95c]' : 'bg-[#b6b6b6]'
+                      }`}
                   />
                   <span>{p.name.split(' ')[0]}</span>
                   {isActive && <Check className="w-3 h-3 stroke-[3]" />}
@@ -270,7 +350,9 @@ export default function DashboardPage() {
       {household && <RoommateBadges roommates={household.roommates} />}
 
       {/* 6. Autonomous Time-Travel Simulator */}
-      <TimeTravelSlider householdId={selectedHouseholdId} onTimeTravel={() => loadData(selectedHouseholdId)} />
+      <div id="time-travel-simulator" className="scroll-mt-8">
+        <TimeTravelSlider householdId={selectedHouseholdId} onTimeTravel={() => loadData(selectedHouseholdId)} />
+      </div>
 
       {/* 7. "Who Has Paid vs Who Is Left" Real-Time Settlement Matrix */}
       <WhoPaidTracker
@@ -279,8 +361,12 @@ export default function DashboardPage() {
         onRefresh={() => loadData(selectedHouseholdId)}
       />
 
-      {/* 8. 3-Column Operational Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* 8. 3-Column Operational Layout (Multimodal Ingestion, Active Expense Ledger, Debt Simplification & Activity Stream) */}
+      <div
+        id="main-content"
+        tabIndex={-1}
+        className="grid grid-cols-1 lg:grid-cols-12 gap-6 scroll-mt-6 outline-none focus:ring-0"
+      >
         {/* Left Column: Multimodal Receipt Ingestion */}
         <div className="lg:col-span-4 space-y-6">
           <ReceiptDropzone
